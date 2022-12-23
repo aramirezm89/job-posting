@@ -6,7 +6,7 @@ import React from "react";
 import * as yup from "yup";
 import { JobPostingLayout } from "../layout/JobPostingLayout";
 
-
+import axios from "axios"
 const validationSchema = yup.object({
   name: yup
     .string("Ingresa tu nombre completo")
@@ -28,10 +28,20 @@ export const JobAplicant = () => {
 
  
     
-    const onSubmitForm = (values,actions) =>{
+    const onSubmitForm = async (values,actions) =>{
       
-        console.log(values)
+        const formData = new FormData();
+        const { name, email, phone, lastLaboralExperience ,curriculum} = values;
+        formData.append('name',name)
+        formData.append('email',email)
+        formData.append('phone',phone)
+        formData.append("lastLaboralExperience", lastLaboralExperience);
+        formData.append('curriculum',curriculum)
 
+        const res = await axios.post("http://localhost:4000/api/auth/prueba",formData);
+
+
+        console.log(res)
         actions.resetForm();
     }
 
@@ -50,16 +60,21 @@ export const JobAplicant = () => {
 
     })
 
-    const {values,errors,handleChange,handleSubmit,touched,setErrors,isSubmitting} = formik;
+    const {values,errors,handleChange,handleSubmit,touched,isSubmitting,setFieldValue} = formik;
 
       const handleFileInput = (event) => {
         const {target} = event;
 
         if (target.files[0].type !== "application/pdf") {
-          setErrors({curriculum:'dfadfad'})
+          //TODO:Mandar alerta
+          return 
         }
 
-        handleChange(event);
+            handleChange(event);
+        setFieldValue('curriculum',target.files[0])
+
+
+    
        
       };
   return (
@@ -80,7 +95,7 @@ export const JobAplicant = () => {
           </Grid>
 
           <Grid item>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} encType="multipart/form-data">
               <TextField
                 fullWidth
                 sx={{ mb: 2 }}
@@ -140,8 +155,7 @@ export const JobAplicant = () => {
                   onChange={handleFileInput}
                   style={{ marginBottom: "12px" }}
                 />
-                {
-                   (touched.phone && Boolean(errors.lastLaboralExperience)) &&
+                {touched.phone && Boolean(errors.lastLaboralExperience) && (
                   <Box>
                     <small
                       style={{
@@ -153,8 +167,7 @@ export const JobAplicant = () => {
                       {touched.curriculum && errors.curriculum}
                     </small>
                   </Box>
-                 
-                }
+                )}
               </Grid>
 
               <Button
