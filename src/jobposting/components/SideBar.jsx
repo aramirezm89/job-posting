@@ -1,3 +1,4 @@
+import { MenuOutlined } from "@mui/icons-material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import {
     Box,
@@ -7,6 +8,7 @@ import {
     List, Toolbar,
     Typography
 } from "@mui/material";
+import { SideBarMenuItems } from "./SideBarMenuItems";
 
 export const Sidebar = ({ drawerWith = 240, openDrawer, handdleDrawer }) => {
  
@@ -20,18 +22,20 @@ export const Sidebar = ({ drawerWith = 240, openDrawer, handdleDrawer }) => {
         }}
       >
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography variant="h6" noWrap component="div">
-           titulo
-          </Typography>
-          <IconButton onClick={() => handdleDrawer()}>
+
+          <Box  display="flex" justifyContent="center" alignItems="center">
+            <Typography variant="h6" noWrap component="div">
+              Menu
+            </Typography>
+           
+          </Box>
+          <IconButton onClick={handdleDrawer}>
             <ChevronLeftIcon />
           </IconButton>
         </Toolbar>
         <Divider />
 
-        <List sx={{ pt: 0 }}>
-         
-        </List>
+        <SideBarMenuItems/>
       </Drawer>
     </Box>
   );

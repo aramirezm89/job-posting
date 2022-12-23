@@ -6,7 +6,7 @@ import { useMemo } from "react";
 
 export const NavBar = ({ drawerWith = 240, handdleDrawer }) => {
 
-  const stado = useMemo(() => handleBreakpoints, [handdleDrawer]);
+  const stado = useMemo(() => handdleDrawer, [handdleDrawer]);
   return (
     <AppBar
       position="fixed"
@@ -27,7 +27,7 @@ export const NavBar = ({ drawerWith = 240, handdleDrawer }) => {
           <MenuOutlined />
         </IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          News
+          VARIACODE
         </Typography>
         <IconButton color="error">
           <LogoutOutlined />

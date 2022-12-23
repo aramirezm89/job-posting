@@ -26,7 +26,7 @@ export const JobPostingLayout = ({children}) => {
         openDrawer={open}
         handdleDrawer={handdleDrawer}
       />
-      <Box component="main" sx={{ flexGrow: 1, p: 1, mt: 8 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 1, m:10 }}>
         {children}
       </Box>
     </Box>
