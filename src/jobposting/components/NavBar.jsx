@@ -1,8 +1,8 @@
 import { LogoutOutlined, MenuOutlined } from "@mui/icons-material";
-import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
+import { AppBar, IconButton, Toolbar } from "@mui/material";
 import { Box } from "@mui/system";
 import { useMemo } from "react";
-import logo from "../../assets/variacode_ch_fn_rgb.webp"
+import logo from "../../assets/variacode_ch_fn_rgb.webp";
 
 export const NavBar = ({ drawerWith = 240, handdleDrawer }) => {
 
