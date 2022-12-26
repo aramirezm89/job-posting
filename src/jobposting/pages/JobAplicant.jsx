@@ -1,88 +1,101 @@
 /* eslint-disable no-useless-escape */
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import { Button, Card, CardContent, Grid, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import React from "react";
 import * as yup from "yup";
 import { JobPostingLayout } from "../layout/JobPostingLayout";
 
-import axios from "axios"
+
+import jobPostingAPi from "../../api/jobPostingApi";
+import Swal from "sweetalert2";
+
 const validationSchema = yup.object({
   name: yup
     .string("Ingresa tu nombre completo")
-    .required("El nombre es requerido"),
+    .required("Campo requerido")
+    .max(100, "Máximo 50 caracteres"),
   email: yup
-    .string("Ingresa tu nombre completo")
+    .string()
     .email("Ingresa un email valido")
-    .required("El nombre es requerido"),
+    .required("El email es requerido")
+    .max(50, "Máxim0 50 caracteres"),
   phone: yup
     .string("Ingresa tú numero de telefonico")
-    .required("El teléfono es requerido")
-    .matches(
-      /^[\(]?[\+]?(\d{2}|\d{3})[\)]?[\s]?((\d{6}|\d{8})|(\d{3}[\*\.\-\s]){2}\d{3}|(\d{2}[\*\.\-\s]){3}\d{2}|(\d{4}[\*\.\-\s]){1}\d{4})|\d{8}|\d{10}|\d{12}$/
-    ,"error"),
-  lastLaboralExperience: yup.string("Inresa tú ultima experiencia laboral").required("La última experiencia laboral es requerida"),
-  curriculum:yup.mixed().required('Curriculum requerido')
+    .required("Campo requerido")
+    .matches(/^\+5[0-9]\d{9}$/, "Número telefonico no valido"),
+  lastLaboralExperience: yup
+    .string("Inresa tú ultima experiencia laboral")
+    .max(300, "Máximo 300 caracteres")
+    .required("Campo requerido"),
+  curriculum: yup.mixed().required("Campo requerido"),
 });
+
 export const JobAplicant = () => {
 
- 
-    
-    const onSubmitForm = async (values,actions) =>{
-      
-        const formData = new FormData();
-        const { name, email, phone, lastLaboralExperience ,curriculum} = values;
-        formData.append('name',name)
-        formData.append('email',email)
-        formData.append('phone',phone)
-        formData.append("lastLaboralExperience", lastLaboralExperience);
-        formData.append('curriculum',curriculum)
+  const onSubmitForm = async (values, actions) => {
+    if(values){
+      Swal.fire('succes','dsfasdf',"success")
+    }
+    const formData = new FormData();
+    const { name, email, phone, lastLaboralExperience, curriculum } = values;
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("phone", phone);
+    formData.append("lastLaboralExperience", lastLaboralExperience);
+    formData.append("curriculum", curriculum);
 
-        const res = await axios.post("http://localhost:4000/api/auth/prueba",formData);
-
-
-        console.log(res)
-        actions.resetForm();
+   
+    try {
+       const res = await jobPostingAPi.post("/applicant",formData);
+          console.log(res);
+    } catch (error) {
+       const msg = error.response.data.errors[0].msg;
+       Swal.fire('Error',msg,"error")
     }
 
-  
-    const formik = useFormik({
-        
-        initialValues:{
-            name:'',
-            email:'',
-            phone:'',
-            lastLaboralExperience:'',
-            curriculum : null
-        },
-        validationSchema:validationSchema,
-        onSubmit:onSubmitForm
+    actions.resetForm();
+  };
 
-    })
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      phone: "",
+      lastLaboralExperience: "",
+      curriculum: null,
+    },
+    validationSchema: validationSchema,
+    onSubmit: onSubmitForm,
+  });
 
-    const {values,errors,handleChange,handleSubmit,touched,isSubmitting,setFieldValue} = formik;
+  const {
+    values,
+    errors,
+    handleChange,
+    handleSubmit,
+    touched,
+    isSubmitting,
+    setFieldValue,
+  } = formik;
 
-      const handleFileInput = (event) => {
-        const {target} = event;
+  const handleFileInput = (event) => {
+    const { target } = event;
 
-        if (target.files[0].type !== "application/pdf") {
-          //TODO:Mandar alerta
-          return 
-        }
+    if (target.files[0].type !== "application/pdf") {
+      //TODO:Mandar alerta
+      return;
+    }
 
-            handleChange(event);
-        setFieldValue('curriculum',target.files[0])
-
-
-    
-       
-      };
+    handleChange(event);
+    setFieldValue("curriculum", target.files[0]);
+  };
   return (
     <>
       <JobPostingLayout>
         <Grid
           container
-          sx={{ minHeight: "75vh" }}
+          sx={{width:{xs:'300px',md:'850px'}}}
           display="grid"
           justifyContent="center"
           alignContent="center"
@@ -94,93 +107,106 @@ export const JobAplicant = () => {
             <hr />
           </Grid>
 
-          <Grid item>
-            <form onSubmit={handleSubmit} encType="multipart/form-data">
-              <TextField
-                fullWidth
-                sx={{ mb: 2 }}
-                id="name"
-                name="name"
-                label="Nombre"
-                value={values.name}
-                onChange={handleChange}
-                error={touched.name && Boolean(errors.name)}
-                helperText={touched.email && errors.email}
-              />
+          <Card sx={{width:"100%"}}>
+            <CardContent>
+              <Grid item>
+                <form
+                  onSubmit={handleSubmit}
+                  encType="multipart/form-data"
+                  style={{ width:'40vw' ,display:"grid",gap:20 }}
+                >
+                  <TextField
+                    fullWidth
+                    id="name"
+                    name="name"
+                    label="Nombre"
+                    placeholder="Ej: Daniel Araya Norambuena"
+                    value={values.name}
+                    onChange={handleChange}
+                    error={touched.name && Boolean(errors.name)}
+                    helperText={touched.name && errors.name}
+                  />
 
-              <TextField
-                fullWidth
-                sx={{ mb: 2 }}
-                id="email"
-                name="email"
-                label="email"
-                value={values.email}
-                onChange={handleChange}
-                error={touched.email && Boolean(errors.email)}
-                helperText={touched.email && errors.email}
-              />
+                  <TextField
+                    fullWidth
+                    id="email"
+                    name="email"
+                    label="Email"
+                    placeholder="Ej: abcd@gmail.com"
+                    value={values.email}
+                    onChange={handleChange}
+                    error={touched.email && Boolean(errors.email)}
+                    helperText={touched.email && errors.email}
+                  />
 
-              <TextField
-                fullWidth
-                sx={{ mb: 2 }}
-                id="phone"
-                name="phone"
-                label="Teléfono"
-                value={values.phone}
-                onChange={handleChange}
-                error={touched.phone && Boolean(errors.phone)}
-                helperText={touched.phone && errors.phone}
-              />
+                  <TextField
+                    fullWidth
+                   
+                    id="phone"
+                    name="phone"
+                    label="Teléfono"
+                    placeholder="Ej:+56912345678"
+                    value={values.phone}
+                    onChange={handleChange}
+                    error={touched.phone && Boolean(errors.phone)}
+                    helperText={touched.phone && errors.phone}
+                  />
 
-              <TextField
-                fullWidth
-                sx={{ mb: 2 }}
-                id="lastLaboralExperience"
-                name="lastLaboralExperience"
-                label="Última experiencia laboral"
-                value={values.lastLaboralExperience}
-                onChange={handleChange}
-                error={touched.phone && Boolean(errors.lastLaboralExperience)}
-                helperText={
-                  touched.lastLaboralExperience && errors.lastLaboralExperience
-                }
-              />
+                  <TextField
+                    fullWidth
+                    multiline
+                   
+                    id="lastLaboralExperience"
+                    name="lastLaboralExperience"
+                    label="Última experiencia laboral"
+                    value={values.lastLaboralExperience}
+                    onChange={handleChange}
+                    error={
+                      touched.phone && Boolean(errors.lastLaboralExperience)
+                    }
+                    helperText={
+                      touched.lastLaboralExperience &&
+                      errors.lastLaboralExperience
+                    }
+                  />
 
-              <Grid item sx={{ mb: 2 }}>
-                <input
-                  id="curriculum"
-                  name="curriculum"
-                  type="file"
-                  accept=".pdf"
-                  onChange={handleFileInput}
-                  style={{ marginBottom: "12px" }}
-                />
-                {touched.phone && Boolean(errors.lastLaboralExperience) && (
-                  <Box>
-                    <small
-                      style={{
-                        color: "#ff1744",
-                        fontSize: "12px",
-                        margin: "0px 14px  ",
-                      }}
-                    >
-                      {touched.curriculum && errors.curriculum}
-                    </small>
-                  </Box>
-                )}
+                  <Grid item >
+                    <input
+                      id="curriculum"
+                      name="curriculum"
+                      type="file"
+                      accept=".pdf"
+                      onChange={handleFileInput}
+                      style={{ marginBottom: "12px" }}
+                    />
+                    {touched.phone && Boolean(errors.lastLaboralExperience) && (
+                      <Box>
+                        <small
+                          style={{
+                            color: "#ff1744",
+                            fontSize: "12px",
+                            margin: "0px 14px  ",
+                          }}
+                        >
+                          {touched.curriculum && errors.curriculum}
+                        </small>
+                      </Box>
+                    )}
+                  </Grid>
+
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    fullWidth
+                    type="submit"
+                    disabled={isSubmitting}
+                  >
+                    Guardar
+                  </Button>
+                </form>
               </Grid>
-
-              <Button
-                color="primary"
-                variant="contained"
-                fullWidth
-                type="submit"
-                disabled={isSubmitting}
-              >
-                Guardar
-              </Button>
-            </form>
-          </Grid>
+            </CardContent>
+          </Card>
         </Grid>
       </JobPostingLayout>
     </>

@@ -1,12 +1,10 @@
-import { MenuOutlined } from "@mui/icons-material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import {
-    Box,
-    Divider,
-    Drawer,
-    IconButton,
-    List, Toolbar,
-    Typography
+  Box,
+  Divider,
+  Drawer,
+  IconButton, Toolbar,
+  Typography
 } from "@mui/material";
 import { SideBarMenuItems } from "./SideBarMenuItems";
 

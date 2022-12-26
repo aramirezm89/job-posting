@@ -1,6 +1,5 @@
 import { LogoutOutlined, MenuOutlined } from "@mui/icons-material";
 import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
-import { handleBreakpoints } from "@mui/system";
 import { useMemo } from "react";
 
 
@@ -29,7 +28,7 @@ export const NavBar = ({ drawerWith = 240, handdleDrawer }) => {
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           VARIACODE
         </Typography>
-        <IconButton color="error">
+        <IconButton style={{color:'white'}}>
           <LogoutOutlined />
         </IconButton>
       </Toolbar>
