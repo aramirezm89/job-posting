@@ -55,7 +55,7 @@ export const CreateJob = () => {
     <JobPostingLayout>
       <Grid
         container
-        sx={{ width: { xs: "300px", md: "850px" } }}
+        sx={{ minHeight: "75vh" }}
         display="grid"
         justifyContent="center"
         alignContent="center"
@@ -117,7 +117,7 @@ export const CreateJob = () => {
                   label="Age"
                   onChange={handleChange}
                 >
-                  <MenuItem value={0} >Selecciona un valor</MenuItem>
+                  <MenuItem value={0}>Selecciona un valor</MenuItem>
                   <MenuItem value={10}>Ten</MenuItem>
                   <MenuItem value={20}>Twenty</MenuItem>
                   <MenuItem value={30}>Thirty</MenuItem>

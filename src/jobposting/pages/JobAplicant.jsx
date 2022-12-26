@@ -34,9 +34,7 @@ const validationSchema = yup.object({
 export const JobAplicant = () => {
 
   const onSubmitForm = async (values, actions) => {
-    if(values){
-      Swal.fire('succes','dsfasdf',"success")
-    }
+
     const formData = new FormData();
     const { name, email, phone, lastLaboralExperience, curriculum } = values;
     formData.append("name", name);
@@ -81,11 +79,21 @@ export const JobAplicant = () => {
 
   const handleFileInput = (event) => {
     const { target } = event;
+   console.log(target.files[0])
 
-    if (target.files[0].type !== "application/pdf") {
-      //TODO:Mandar alerta
-      return;
-    }
+   if (target.files[0].size > 5242880){
+     //TODO:Mandar alerta
+     Swal.fire("Error", "El archivo debe tener un tamaño máximo de 5 mb", "error");
+   }
+     if (target.files[0].type !== "application/pdf") {
+       //TODO:Mandar alerta
+       Swal.fire(
+         "Error",
+         "Solo se permite formato pdf para curriculum",
+         "error"
+       );
+       return;
+     }
 
     handleChange(event);
     setFieldValue("curriculum", target.files[0]);
@@ -95,7 +103,7 @@ export const JobAplicant = () => {
       <JobPostingLayout>
         <Grid
           container
-          sx={{width:{xs:'300px',md:'850px'}}}
+          sx={{minHeight:'75vh'}}
           display="grid"
           justifyContent="center"
           alignContent="center"

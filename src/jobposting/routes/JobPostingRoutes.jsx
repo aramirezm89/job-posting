@@ -12,7 +12,7 @@ export const JobPostingRoutes = () => {
        <Route path='/' element={<JobPostingPage/>} />
        <Route path='/linkedin' element={<LinkedinPage/>} />
        <Route path='/createJob' element={<CreateJob/>} />
-       <Route path='/jobAplicant' element={<JobAplicant/>} />
+       <Route path='/jobApplicant' element={<JobAplicant/>} />
        <Route path='/*' element={<Navigate to="/"/>} />
    </Routes>
   )
