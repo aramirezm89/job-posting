@@ -156,7 +156,6 @@ export const JobAplicant = () => {
 
                   <TextField
                     fullWidth
-                   
                     id="phone"
                     name="phone"
                     label="Teléfono"
@@ -170,14 +169,13 @@ export const JobAplicant = () => {
                   <TextField
                     fullWidth
                     multiline
-                   
                     id="lastLaboralExperience"
                     name="lastLaboralExperience"
                     label="Última experiencia laboral"
                     value={values.lastLaboralExperience}
                     onChange={handleChange}
                     error={
-                      touched.phone && Boolean(errors.lastLaboralExperience)
+                      touched.lastLaboralExperience && Boolean(errors.lastLaboralExperience)
                     }
                     helperText={
                       touched.lastLaboralExperience &&

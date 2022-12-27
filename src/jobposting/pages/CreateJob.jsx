@@ -1,56 +1,58 @@
-import { Button, Card, CardContent, Grid, MenuItem, Select, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  FormControl,
+  FormHelperText,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useFormik } from "formik";
-import { JobPostingLayout } from "../layout/JobPostingLayout"
+import { JobPostingLayout } from "../layout/JobPostingLayout";
 
 import * as yup from "yup";
-import Swal from "sweetalert2";
-import jobPostingAPi from "../../api/jobPostingApi";
-import { Box } from "@mui/system";
 const validationSchema = yup.object({
-  name: yup
-    .string("Ingresa tu nombre completo")
+  position: yup
+    .string("Cargo requerido")
     .required("Campo requerido")
-    .max(100, "Máximo 50 caracteres"),
-  email: yup
+    .max(80, "Máximo 80 caracteres"),
+  description: yup
     .string()
-    .email("Ingresa un email valido")
-    .required("El email es requerido")
-    .max(50, "Máxim0 50 caracteres"),
-  phone: yup
-    .string("Ingresa tú numero de telefonico")
     .required("Campo requerido")
-    .matches(/^\+5[0-9]\d{9}$/, "Número telefonico no valido")
- 
+    .max(300, "Máxim0 50 caracteres"),
+  location: yup
+    .string("")
+    .max(80, "Máximo 80 caracteres")
+    .required("Campo requerido"),
+  recruiterId: yup.string().required("Campo requerido"),
+  jobTypeId: yup.string().required("Campo requerido"),
 });
 
 export const CreateJob = () => {
+  const onSubmitForm = async (values, actions) => {
+    console.log(values);
+    actions.resetForm();
+  };
 
-    const onSubmitForm = async (values, actions) => {
-     
-    console.log(values)
-      actions.resetForm();
-    };
+  const formik = useFormik({
+    initialValues: {
+      position: "",
+      description: "",
+      location: "",
+      recruiterId: "",
+      jobTypeId: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: onSubmitForm,
+  });
 
-    const formik = useFormik({
-      initialValues: {
-        name: "",
-        email: "",
-        phone: "",
-       age:0
-      },
-      validationSchema: validationSchema,
-      onSubmit: onSubmitForm,
-    });
+  const { values, errors, handleChange, handleSubmit, touched, isSubmitting } =
+    formik;
 
-    const {
-      values,
-      errors,
-      handleChange,
-      handleSubmit,
-      touched,
-      isSubmitting,
-    } = formik;
-    
   return (
     <JobPostingLayout>
       <Grid
@@ -70,59 +72,87 @@ export const CreateJob = () => {
             <Grid item>
               <form
                 onSubmit={handleSubmit}
-                encType="multipart/form-data"
                 style={{ width: "100%", display: "grid", gap: 20 }}
               >
+                {/* position */}
                 <TextField
                   fullWidth
-                  id="name"
-                  name="name"
-                  label="Nombre"
-                  placeholder="Ej: Daniel Araya Norambuena"
-                  value={values.name}
+                  id="position"
+                  name="position"
+                  label="Cargo"
+                  placeholder="Junior developer Node JS"
+                  value={values.position}
                   onChange={handleChange}
-                  error={touched.name && Boolean(errors.name)}
-                  helperText={touched.name && errors.name}
+                  error={touched.position && Boolean(errors.position)}
+                  helperText={touched.position && errors.position}
                 />
-
+                {/* description */}
                 <TextField
                   fullWidth
-                  id="email"
-                  name="email"
-                  label="Email"
-                  placeholder="Ej: abcd@gmail.com"
-                  value={values.email}
+                  multiline
+                  id="description"
+                  name="description"
+                  label="Descripción del empleo"
+                  value={values.description}
                   onChange={handleChange}
-                  error={touched.email && Boolean(errors.email)}
-                  helperText={touched.email && errors.email}
+                  error={touched.description && Boolean(errors.description)}
+                  helperText={touched.description && errors.description}
                 />
 
+                {/* location */}
                 <TextField
                   fullWidth
-                  id="phone"
-                  name="phone"
-                  label="Teléfono"
-                  placeholder="Ej:+56912345678"
-                  value={values.phone}
+                  id="location"
+                  name="location"
+                  label="Ubicacion"
+                  placeholder="Santiago, Chile"
+                  value={values.location}
                   onChange={handleChange}
-                  error={touched.phone && Boolean(errors.phone)}
-                  helperText={touched.phone && errors.phone}
+                  error={touched.location && Boolean(errors.location)}
+                  helperText={touched.location && errors.location}
                 />
 
-                <Select
-                  labelId="demo-simple-select-label"
-                  name="age"
-                  id="demo-simple-select"
-                  value={values.age}
-                  label="Age"
-                  onChange={handleChange}
+                {/*   recruiterId */}
+                <FormControl
+                  error={touched.recruiterId && Boolean(errors.recruiterId)}
                 >
-                  <MenuItem value={0}>Selecciona un valor</MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
+                  <InputLabel id="recruiterId">Reclutador</InputLabel>
+                  <Select
+                    labelId="recruiterId"
+                    name="recruiterId"
+                    value={values.recruiterId}
+                    onChange={handleChange}
+                    label="Reclutador"
+                  >
+                    <MenuItem value={100}>Fabiola Quijada</MenuItem>
+                    <MenuItem value={200}>Rafael Rodriguez</MenuItem>
+                    <MenuItem value={300}>Armando Casas</MenuItem>
+                  </Select>
+                  <FormHelperText>
+                    {touched.recruiterId && errors.recruiterId}
+                  </FormHelperText>
+                </FormControl>
 
+                {/*jobTypeId*/}
+                <FormControl
+                  error={touched.jobTypeId && Boolean(errors.jobTypeId)}
+                >
+                  <InputLabel id="jobTypeId">Lugar de trabajo</InputLabel>
+                  <Select
+                    labelId="jobTypeId"
+                    name="jobTypeId"
+                    label="Lugar de Trabajo"
+                    value={values.jobTypeId}
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={100}>Remoto</MenuItem>
+                    <MenuItem value={200}>Semi presencial</MenuItem>
+                    <MenuItem value={300}>Presencial</MenuItem>
+                  </Select>
+                  <FormHelperText>
+                    {touched.jobTypeId && errors.jobTypeId}
+                  </FormHelperText>
+                </FormControl>
                 <Button
                   color="primary"
                   variant="contained"
@@ -139,4 +169,4 @@ export const CreateJob = () => {
       </Grid>
     </JobPostingLayout>
   );
-}
+};
