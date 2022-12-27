@@ -1,20 +1,19 @@
-import { Home, LinkedIn } from "@mui/icons-material";
-import {
-  Divider,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-} from "@mui/material";
+import { Add, BusinessCenter } from "@mui/icons-material";
+import { List, ListItem, ListItemButton, ListItemIcon } from "@mui/material";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 const menu = [
-  { label: "Home", icon: <Home />, path: "/" },
-  { label: "Linkedin", icon: <LinkedIn />, path: "/" },
+  
+  { label: "Crear empleo", icon: <Add />, path: "/createJob" },
+  {
+    label: "Postular a un empleo",
+    icon: <BusinessCenter />,
+    path: "/jobApplicant",
+  },
 ];
 
-export const SideBarMenuItems = () => {
+export const SidebarJobMenuItems = () => {
   const [selectedItem, setSelectedItem] = useState();
 
   const handleSelectItem = (index) => {

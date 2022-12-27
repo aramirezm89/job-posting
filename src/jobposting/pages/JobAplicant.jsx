@@ -14,6 +14,10 @@ const validationSchema = yup.object({
   name: yup
     .string("Ingresa tu nombre completo")
     .required("Campo requerido")
+    .matches(
+      /^[^$%&|<>#*!¿?¡]*$/,
+      "Nombre no puede contener caracteres especiales ($%&|<>#*)"
+    )
     .max(100, "Máximo 50 caracteres"),
   email: yup
     .string()
@@ -28,7 +32,7 @@ const validationSchema = yup.object({
     .string("Inresa tú ultima experiencia laboral")
     .max(300, "Máximo 300 caracteres")
     .required("Campo requerido"),
-  curriculum: yup.mixed().required("Campo requerido"),
+  curriculum: yup.mixed().required("Curriculum requerido"),
 });
 
 export const JobAplicant = () => {
@@ -47,12 +51,15 @@ export const JobAplicant = () => {
     try {
        const res = await jobPostingAPi.post("/applicant",formData);
           console.log(res);
+           actions.resetForm();
     } catch (error) {
+
        const msg = error.response.data.errors[0].msg;
+
        Swal.fire('Error',msg,"error")
     }
 
-    actions.resetForm();
+   
   };
 
   const formik = useFormik({
@@ -79,7 +86,7 @@ export const JobAplicant = () => {
 
   const handleFileInput = (event) => {
     const { target } = event;
-   console.log(target.files[0])
+
 
    if (target.files[0].size > 5242880){
      //TODO:Mandar alerta
