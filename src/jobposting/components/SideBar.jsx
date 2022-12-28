@@ -11,7 +11,7 @@ import { SideBarMenuItems } from "./SideBarMenuItems";
 
 const menu = [
   { label: "Home", icon: <Home />, path: "/" },
-  { label: "Linkedin", icon: <LinkedIn />, path: "/" },
+  { label: "Linkedin", icon: <LinkedIn />, path: "/jobPosting" },
 ];
 
 
@@ -19,11 +19,7 @@ const jobMenu = [
   { label: "Empleos", icon: <Add />, path: "/jobs" },
 
   { label: "Crear empleo", icon: <Add />, path: "/createJob" },
-  {
-    label: "Postular a un empleo",
-    icon: <BusinessCenter />,
-    path: "/jobApplicant",
-  },
+ 
 ];
 
 

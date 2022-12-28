@@ -1,15 +1,8 @@
 import {
   Button,
   Card,
-  CardContent,
-  FormControl,
-  FormHelperText,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
+  CardContent, Grid, TextField,
+  Typography
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -38,18 +31,12 @@ const validationSchema = yup.object({
     .email("Ingresa un email valido")
     .required("El email es requerido")
     .max(50, "Máxim0 50 caracteres"),
-  role: yup.string().required("Campo requerido"),
 });
 
 
 
 export const CreateRecruiter = () => {
 
-  const roles = [
-    { id: 1, name: "administrador" },
-    { id: 2, name: "reclutador" },
-    { id: 3, name: "usuario" }
-  ];
   const onSubmitForm = async (values, actions) => {
     console.log(values);
 
@@ -68,7 +55,7 @@ export const CreateRecruiter = () => {
       name: "",
       lastname: "",
       email: "",
-      role: "",
+      role: "recruiter",
     },
     validationSchema: validationSchema,
     onSubmit: onSubmitForm,
@@ -139,27 +126,16 @@ export const CreateRecruiter = () => {
 
                   {/*role*/}
 
-                  <FormControl
-                    error={touched.role && Boolean(errors.role)}
-                  >
-                    <InputLabel id="role">Rol</InputLabel>
-                    <Select
-                      labelId="role"
-                      name="role"
-                      value={values.role}
-                      onChange={handleChange}
-                      label="Rol"
-                    >
-                    {roles.map(rol => (
-                      <MenuItem key={rol.id} value={rol.id} >{rol.name}</MenuItem>
-                    ))}
-                    </Select>
-                    <FormHelperText>
-                      {touched.recruiterId && errors.recruiterId}
-                    </FormHelperText>
-                  </FormControl>
+                  <TextField
+                    fullWidth
+                    id="role"
+                    name="role"
+                    label="Rol"
+                    value={values.role}
+                    onChange={handleChange}
+                   disabled
+                  />
 
-                 
                   <Button
                     color="primary"
                     variant="contained"
