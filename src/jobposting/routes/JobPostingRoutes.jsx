@@ -1,19 +1,25 @@
 import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { JobPostingPage } from '../pages'
-import { CreateJob } from '../pages/CreateJob'
-import { JobAplicant } from '../pages/JobAplicant'
-import { LinkedinPage } from '../pages/LinkedinPage'
+import { CreateRecruiter } from '../../admin/pages';
+import { JobPostingPage,JobAplicant,CreateJob,LinkedinPage, Jobs } from '../pages'
+
+
 
 export const JobPostingRoutes = () => {
   
   return (
-   <Routes>
-       <Route path='/' element={<JobPostingPage/>} />
-       <Route path='/linkedin' element={<LinkedinPage/>} />
-       <Route path='/createJob' element={<CreateJob/>} />
-       <Route path='/jobApplicant' element={<JobAplicant/>} />
-       <Route path='/*' element={<Navigate to="/"/>} />
-   </Routes>
-  )
+    <Routes>
+      <Route path="/" element={<JobPostingPage />} />
+      <Route path="/linkedin" element={<LinkedinPage />} />
+      <Route path="/createJob" element={<CreateJob />} />
+      <Route path="/jobApplicant/:id" element={<JobAplicant />} />
+      <Route path="/jobs" element={<Jobs />} />
+
+      {/*  //admin */}
+
+      <Route path="/createRecruiter" element={< CreateRecruiter/>} />
+
+      <Route path="/*" element={<Navigate to="/" />} />
+    </Routes>
+  );
 }

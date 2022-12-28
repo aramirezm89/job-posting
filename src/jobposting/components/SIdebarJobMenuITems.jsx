@@ -4,7 +4,8 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 const menu = [
-  
+  { label: "Empleos", icon: <Add />, path: "/jobs" },
+
   { label: "Crear empleo", icon: <Add />, path: "/createJob" },
   {
     label: "Postular a un empleo",

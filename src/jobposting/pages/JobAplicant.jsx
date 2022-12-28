@@ -18,7 +18,7 @@ const validationSchema = yup.object({
       /^[^$%&|<>#*!¿?¡]*$/,
       "Nombre no puede contener caracteres especiales ($%&|<>#*)"
     )
-    .max(100, "Máximo 50 caracteres"),
+    .max(50, "Máximo 50 caracteres"),
   email: yup
     .string()
     .email("Ingresa un email valido")

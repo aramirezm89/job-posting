@@ -1,7 +1,7 @@
 import { Box } from '@mui/system';
 import React, { useState } from 'react'
-import { NavBar } from '../components/NavBar';
-import { Sidebar } from '../components/SideBar';
+import { NavBar,Sidebar } from '../components';
+
 
 const drawerWith = 240;
 

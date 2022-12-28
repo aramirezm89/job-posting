@@ -8,7 +8,10 @@ export const AppRouter = () => {
   return (
     <Routes>
       {status === "authenticated" ? (
-        <Route path="/*" element={<JobPostingRoutes/>} />
+        <>
+          <Route path="/*" element={<JobPostingRoutes />} />
+      
+        </>
       ) : (
         <Route path="auth/" element={<AuthRoutes />} />
       )}

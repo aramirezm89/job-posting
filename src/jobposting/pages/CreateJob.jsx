@@ -9,12 +9,12 @@ import {
   MenuItem,
   Select,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import { useFormik } from "formik";
+import * as yup from "yup";
 import { JobPostingLayout } from "../layout/JobPostingLayout";
 
-import * as yup from "yup";
 const validationSchema = yup.object({
   position: yup
     .string("Cargo requerido")
@@ -33,6 +33,7 @@ const validationSchema = yup.object({
 });
 
 export const CreateJob = () => {
+  
   const onSubmitForm = async (values, actions) => {
     console.log(values);
     actions.resetForm();

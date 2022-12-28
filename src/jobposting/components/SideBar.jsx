@@ -6,7 +6,7 @@ import {
   IconButton, Toolbar,
   Typography
 } from "@mui/material";
-import { SidebarJobMenuItems } from "./SIdebarJobMenuITems";
+import { SidebarJobMenuItems } from "./SidebarJobMenuITems";
 import { SideBarMenuItems } from "./SideBarMenuItems";
 
 export const Sidebar = ({ drawerWith = 240, openDrawer, handdleDrawer }) => {
