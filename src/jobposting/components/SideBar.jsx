@@ -1,3 +1,4 @@
+import { Add, BusinessCenter, Home, LinkedIn } from "@mui/icons-material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import {
   Box,
@@ -6,8 +7,31 @@ import {
   IconButton, Toolbar,
   Typography
 } from "@mui/material";
-import { SidebarJobMenuItems } from "./SidebarJobMenuITems";
 import { SideBarMenuItems } from "./SideBarMenuItems";
+
+const menu = [
+  { label: "Home", icon: <Home />, path: "/" },
+  { label: "Linkedin", icon: <LinkedIn />, path: "/" },
+];
+
+
+const jobMenu = [
+  { label: "Empleos", icon: <Add />, path: "/jobs" },
+
+  { label: "Crear empleo", icon: <Add />, path: "/createJob" },
+  {
+    label: "Postular a un empleo",
+    icon: <BusinessCenter />,
+    path: "/jobApplicant",
+  },
+];
+
+
+const adminMenu = [
+  { label: "Crear reclutador", icon: <Add />, path: "/createRecruiter" },
+
+ 
+];
 
 export const Sidebar = ({ drawerWith = 240, openDrawer, handdleDrawer }) => {
  
@@ -32,17 +56,48 @@ export const Sidebar = ({ drawerWith = 240, openDrawer, handdleDrawer }) => {
         </Toolbar>
         <Divider />
 
-        <SideBarMenuItems />
+        <SideBarMenuItems menu={menu} />
 
         <Divider />
-        <Box sx={{display:'flex',justifyContent:'space-between', alignItems:'center',padding:'16px 16px'}}>
+
+        {/*   menuJob */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "16px 16px",
+          }}
+        >
           <Typography variant="h6" noWrap component="div">
             Empleos
           </Typography>
         </Box>
 
-        <Divider/>
-        <SidebarJobMenuItems/>
+        <Divider />
+
+        <SideBarMenuItems menu={jobMenu} />
+        <Divider />
+
+        {/*admin menu*/}
+
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "16px 16px",
+          }}
+        >
+          <Typography variant="h6" noWrap component="div">
+            Administración
+          </Typography>
+        </Box>
+
+        <Divider />
+
+        <SideBarMenuItems menu={adminMenu} />
+        <Divider />
       </Drawer>
     </Box>
   );

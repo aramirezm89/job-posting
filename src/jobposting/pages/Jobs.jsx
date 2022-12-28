@@ -58,7 +58,7 @@ export const Jobs = () => {
         </Grid>
         <Grid container display="flex" justifyContent="space-between" gap={3}>
           {jobs.map((job) => (
-            <JobCard key={job.id} job={job} />
+            <JobCard key={job.jobId} job={job} />
           ))}
         </Grid>
       </JobPostingLayout>
