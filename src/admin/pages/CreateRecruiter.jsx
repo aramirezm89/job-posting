@@ -55,7 +55,9 @@ export const CreateRecruiter = () => {
       name: "",
       lastname: "",
       email: "",
-      role: "recruiter",
+
+      //TODO: IdRole
+      roleId: "d96a2209",
     },
     validationSchema: validationSchema,
     onSubmit: onSubmitForm,
@@ -128,10 +130,11 @@ export const CreateRecruiter = () => {
 
                   <TextField
                     fullWidth
-                    id="role"
-                    name="role"
+                    id="roleId"
+                    name="roleId"
                     label="Rol"
-                    value={values.role}
+                  
+                    defaultValue="Recruiter"
                     onChange={handleChange}
                    disabled
                   />

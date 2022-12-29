@@ -25,6 +25,7 @@ const jobMenu = [
 
 const adminMenu = [
   { label: "Crear reclutador", icon: <Add />, path: "/createRecruiter" },
+  { label: "PruebaGoogle", icon: <Add />, path: "/google" },
 
  
 ];

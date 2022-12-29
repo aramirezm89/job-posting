@@ -9,6 +9,7 @@ import { JobPostingLayout } from "../layout/JobPostingLayout";
 
 import jobPostingAPi from "../../api/jobPostingApi";
 import Swal from "sweetalert2";
+import { useParams } from "react-router-dom";
 
 const validationSchema = yup.object({
   name: yup
@@ -37,10 +38,17 @@ const validationSchema = yup.object({
 
 export const JobAplicant = () => {
 
-  const onSubmitForm = async (values, actions) => {
+  //parametro id url
 
+  const {id : jobId} = useParams();
+
+  console.log(jobId)
+
+  const onSubmitForm = async (values, actions) => {
+ 
     const formData = new FormData();
     const { name, email, phone, lastLaboralExperience, curriculum } = values;
+    formData.append("jobId",jobId)
     formData.append("name", name);
     formData.append("email", email);
     formData.append("phone", phone);
