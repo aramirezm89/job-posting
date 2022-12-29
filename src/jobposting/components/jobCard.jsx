@@ -11,22 +11,12 @@ import { getJobTypesById, getRecruiterById } from "../../api/apiFunctions";
 
 export const JobCard = ({ job = {} }) => {
 
-  const { position, description, location, recruiterid, jobtypeid } = job;
-  const [recruiterName,setRecruiterName] = useState();
-  const [jobtypeName,setJobtypeName] = useState();
+  const { position, description, location, recruiter, type } = job;
 
 
-  useEffect(() =>{
 
-    getRecruiterById(recruiterid).then(({ data }) => {
-      setRecruiterName(data.registros[0].name)
-    });
-    getJobTypesById(jobtypeid).then(({data})=>{
-      console.log(data)
-      setJobtypeName(data.registros[0].name);
-    })
-  },[])
-  return (
+
+  return(
     <>
       <Card sx={{ padding: 2, minWidth:{xs:300,md:500},maxWidth:600}}>
         <CardContent>
@@ -38,10 +28,10 @@ export const JobCard = ({ job = {} }) => {
 
           <p>{location}</p>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            Reclutador: {recruiterName}
+            Reclutador: {recruiter}
           </Typography>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            Tipo de empleo: {jobtypeName}
+            Tipo de empleo: {type}
           </Typography>
         </CardContent>
         <CardActions>
