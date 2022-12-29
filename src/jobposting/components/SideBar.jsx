@@ -1,4 +1,4 @@
-import { Add, BusinessCenter, Home, LinkedIn } from "@mui/icons-material";
+import { Add, List, Home, LinkedIn } from "@mui/icons-material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import {
   Box,
@@ -16,7 +16,7 @@ const menu = [
 
 
 const jobMenu = [
-  { label: "Empleos", icon: <Add />, path: "/jobs" },
+  { label: "Empleos", icon: <List />, path: "/jobs" },
 
   { label: "Crear empleo", icon: <Add />, path: "/createJob" },
  

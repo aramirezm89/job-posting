@@ -1,10 +1,11 @@
 import { Divider, Grid, Typography } from "@mui/material";
 import { width } from "@mui/system";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getJobs } from "../../api/apiFunctions";
 import { JobCard } from "../components";
 import { JobPostingLayout } from "../layout/JobPostingLayout";
 
-const jobs = [
+/* const jobs = [
   {
     jobId: 1,
     position: "Ingreniero Node",
@@ -45,8 +46,18 @@ const jobs = [
     recruiter: "Alberto Jara",
     jobType: "Semi presencial",
   },
-];
+]; */
 export const Jobs = () => {
+
+  const [jobs,setJobs] = useState([])
+
+  useEffect(() => {
+  getJobs().then(({data}) => {
+    console.log(data)
+    setJobs(data.registros)
+  })
+  }, [])
+  
   return (
     <>
       <JobPostingLayout>
@@ -56,9 +67,9 @@ export const Jobs = () => {
             <Divider/>
           </Grid>
         </Grid>
-        <Grid container display="flex" justifyContent="space-between" gap={3}>
+        <Grid container display="flex" justifyContent="space-evenly" gap={3}>
           {jobs.map((job) => (
-            <JobCard key={job.jobId} job={job} />
+            <JobCard key={job.id} job={job} />
           ))}
         </Grid>
       </JobPostingLayout>

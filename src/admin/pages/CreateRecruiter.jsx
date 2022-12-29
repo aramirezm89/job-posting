@@ -1,10 +1,13 @@
 import {
   Button,
   Card,
-  CardContent, Grid, TextField,
-  Typography
+  CardContent,
+  Grid,
+  TextField,
+  Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
+import Swal from "sweetalert2";
 import * as yup from "yup";
 import jobPostingAPi from "../../api/jobPostingApi";
 import { JobPostingLayout } from "../../jobposting/layout/JobPostingLayout";
@@ -33,19 +36,22 @@ const validationSchema = yup.object({
     .max(50, "Máxim0 50 caracteres"),
 });
 
-
-
 export const CreateRecruiter = () => {
 
   const onSubmitForm = async (values, actions) => {
     console.log(values);
 
     try {
-      const res = await jobPostingAPi.post('/recruiter',values);
-      console.log(res);
+      await jobPostingAPi.post("/recruiter", values);
+      Swal.fire("Creado", "Reclutador creado con éxito", "success");
+
     } catch (error) {
       console.log(error);
-
+      Swal.fire(
+        "Error",
+        "No se pudo guardar el registro, posiblemente ya exista un reclutaddor con el mismo email en la base de datos",
+        "error"
+      );
     }
     actions.resetForm();
   };
@@ -133,10 +139,9 @@ export const CreateRecruiter = () => {
                     id="roleId"
                     name="roleId"
                     label="Rol"
-                  
                     defaultValue="Recruiter"
                     onChange={handleChange}
-                   disabled
+                    disabled
                   />
 
                   <Button

@@ -5,15 +5,30 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getJobTypesById, getRecruiterById } from "../../api/apiFunctions";
 
 export const JobCard = ({ job = {} }) => {
-  const { position, description, location, recruiter, jobType } = job;
 
+  const { position, description, location, recruiterid, jobtypeid } = job;
+  const [recruiterName,setRecruiterName] = useState();
+  const [jobtypeName,setJobtypeName] = useState();
+
+
+  useEffect(() =>{
+
+    getRecruiterById(recruiterid).then(({ data }) => {
+      setRecruiterName(data.registros[0].name)
+    });
+    getJobTypesById(jobtypeid).then(({data})=>{
+      console.log(data)
+      setJobtypeName(data.registros[0].name);
+    })
+  },[])
   return (
     <>
-      <Card sx={{ padding: 2 }}>
+      <Card sx={{ padding: 2, minWidth:{xs:300,md:500},maxWidth:600}}>
         <CardContent>
           <Typography variant="h5" component="div">
             {position}
@@ -23,16 +38,16 @@ export const JobCard = ({ job = {} }) => {
 
           <p>{location}</p>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            Reclutador: {recruiter}
+            Reclutador: {recruiterName}
           </Typography>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            Tipo de empleo: {jobType}
+            Tipo de empleo: {jobtypeName}
           </Typography>
         </CardContent>
         <CardActions>
           <Link
           className="linkButton"
-            to={`/jobApplicant/${job.jobId}`}
+            to={`/jobApplicant/${job.id}`}
           >
             POSTULAR
           </Link>

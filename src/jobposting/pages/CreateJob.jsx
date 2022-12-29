@@ -12,7 +12,11 @@ import {
   Typography
 } from "@mui/material";
 import { useFormik } from "formik";
+import { useEffect, useState } from "react";
 import * as yup from "yup";
+import { getJobTypes, getRecruiters } from "../../api/apiFunctions";
+import jobPostingAPi from "../../api/jobPostingApi";
+
 import { JobPostingLayout } from "../layout/JobPostingLayout";
 
 const validationSchema = yup.object({
@@ -33,9 +37,32 @@ const validationSchema = yup.object({
 });
 
 export const CreateJob = () => {
-  
+
+  const [recruiters,setRecruiters] = useState([]);
+  const [jobTypes,setJobTypes] = useState([]);
+
+useEffect( () => {
+   getRecruiters().then(({data}) => {
+    setRecruiters(data.registros);
+   });
+   getJobTypes().then(({data}) =>{
+    setJobTypes(data.registros)
+    setJobTypes(data.registros)
+   })
+}, [])
+
+
   const onSubmitForm = async (values, actions) => {
-    console.log(values);
+   console.log(values)
+    try {
+     const res = await jobPostingAPi.post('/job',values);
+
+     console.log(res)
+
+    } catch (error) {
+      console.log(error);
+
+    }
     actions.resetForm();
   };
 
@@ -125,9 +152,11 @@ export const CreateJob = () => {
                     onChange={handleChange}
                     label="Reclutador"
                   >
-                    <MenuItem value={100}>Fabiola Quijada</MenuItem>
-                    <MenuItem value={200}>Rafael Rodriguez</MenuItem>
-                    <MenuItem value={300}>Armando Casas</MenuItem>
+                    {recruiters.map((recruiter) => (
+                      <MenuItem key={recruiter.id} value={recruiter.id}>
+                        {recruiter.name}
+                      </MenuItem>
+                    ))}
                   </Select>
                   <FormHelperText>
                     {touched.recruiterId && errors.recruiterId}
@@ -140,15 +169,17 @@ export const CreateJob = () => {
                 >
                   <InputLabel id="jobTypeId">Lugar de trabajo</InputLabel>
                   <Select
-                    labelId="jobTypeId"
+                    labelId="jobtypeId"
                     name="jobTypeId"
                     label="Lugar de Trabajo"
                     value={values.jobTypeId}
                     onChange={handleChange}
                   >
-                    <MenuItem value={100}>Remoto</MenuItem>
-                    <MenuItem value={200}>Semi presencial</MenuItem>
-                    <MenuItem value={300}>Presencial</MenuItem>
+                    {jobTypes.map((jobType) => (
+                      <MenuItem key={jobType.id} value={jobType.id}>
+                        {jobType.type}
+                      </MenuItem>
+                    ))}
                   </Select>
                   <FormHelperText>
                     {touched.jobTypeId && errors.jobTypeId}
