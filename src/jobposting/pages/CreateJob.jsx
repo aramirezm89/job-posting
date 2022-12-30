@@ -91,7 +91,13 @@ useEffect( () => {
         alignContent="center"
       >
         <Grid item sx={{ mb: 3 }}>
-          <Typography variant="h5">Crear empleo</Typography>
+          <Typography
+            variant="h5"
+            className="animate__animated
+                animate__lightSpeedInLeft"
+          >
+            Crear empleo
+          </Typography>
           <hr />
         </Grid>
 

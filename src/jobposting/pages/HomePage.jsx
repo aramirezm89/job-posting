@@ -18,16 +18,34 @@ export const HomePage = () => {
             container
             display="grid"
             justifyContent="center"
+            alignItems="center"
             sx={{ marginTop: 5 }}
           >
-            <Grid item display="grid" justifyContent="center" alignItems="center">
-              <Typography variant="h2" color="primary">
+            <Grid
+              item
+              xs={12}
+              display="grid"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Typography
+                variant="h2"
+                color="primary"
+                className="animate__animated
+                animate__lightSpeedInLeft"
+              >
                 VARIACODE
               </Typography>
             </Grid>
 
-            <Grid item display="grid" justifyContent="center" alignItems="center">
-              <Typography variant="p">
+            <Grid
+              item
+              xs={12}
+              display="grid"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Typography variant="p" sx={{textAlign:'center'}}>
                 Digital Progress Through Technical Acceleration
               </Typography>
             </Grid>

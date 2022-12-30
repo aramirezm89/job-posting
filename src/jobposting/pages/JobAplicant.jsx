@@ -118,25 +118,29 @@ export const JobAplicant = () => {
       <JobPostingLayout>
         <Grid
           container
-          sx={{minHeight:'75vh'}}
+          sx={{ minHeight: "75vh" }}
           display="grid"
           justifyContent="center"
           alignContent="center"
         >
           <Grid item sx={{ mb: 3 }}>
-            <Typography variant="h5">
+            <Typography
+              variant="h5"
+              className="animate__animated
+                animate__lightSpeedInLeft"
+            >
               Formulario de solicitud de trabajo
             </Typography>
             <hr />
           </Grid>
 
-          <Card sx={{width:"100%"}}>
+          <Card sx={{ width: "100%" }}>
             <CardContent>
               <Grid item>
                 <form
                   onSubmit={handleSubmit}
                   encType="multipart/form-data"
-                  style={{ width:'40vw' ,display:"grid",gap:20 }}
+                  style={{ width: "40vw", display: "grid", gap: 20 }}
                 >
                   <TextField
                     fullWidth
@@ -183,7 +187,8 @@ export const JobAplicant = () => {
                     value={values.lastLaboralExperience}
                     onChange={handleChange}
                     error={
-                      touched.lastLaboralExperience && Boolean(errors.lastLaboralExperience)
+                      touched.lastLaboralExperience &&
+                      Boolean(errors.lastLaboralExperience)
                     }
                     helperText={
                       touched.lastLaboralExperience &&
@@ -191,7 +196,7 @@ export const JobAplicant = () => {
                     }
                   />
 
-                  <Grid item >
+                  <Grid item>
                     <input
                       id="curriculum"
                       name="curriculum"

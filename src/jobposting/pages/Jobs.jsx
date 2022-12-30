@@ -61,10 +61,25 @@ export const Jobs = () => {
   return (
     <>
       <JobPostingLayout>
-        <Grid sx={{width:'100%'}} container  display="flex" justifyContent="center">
-          <Grid item sx={{width:'100%',marginBottom:3,textAlign:'center'}}>
-            <Typography sx={{marginBottom:1}} variant="h5">Listado Empleos</Typography>
-            <Divider/>
+        <Grid
+          sx={{ width: "100%" }}
+          container
+          display="flex"
+          justifyContent="center"
+        >
+          <Grid
+            item
+            sx={{ width: "100%", marginBottom: 3, textAlign: "center" }}
+          >
+            <Typography
+              sx={{ marginBottom: 1 }}
+              variant="h5"
+              className="animate__animated
+                animate__lightSpeedInLeft"
+            >
+              Listado Empleos
+            </Typography>
+            <Divider />
           </Grid>
         </Grid>
         <Grid container display="flex" justifyContent="space-evenly" gap={3}>
