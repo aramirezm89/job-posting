@@ -82,7 +82,7 @@ export const Jobs = () => {
             <Divider />
           </Grid>
         </Grid>
-        <Grid container display="flex" justifyContent="space-evenly" gap={3}>
+        <Grid container display="flex" justifyContent="space-evenly" gap={3} mb={5}>
           {jobs.map((job) => (
             <JobCard key={job.id} job={job} />
           ))}

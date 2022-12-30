@@ -1,8 +1,8 @@
 /* eslint-disable no-useless-escape */
-import { Button, Card, CardContent, Grid, TextField, Typography } from "@mui/material";
+import { Button, Card, CardContent, FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as yup from "yup";
 import { JobPostingLayout } from "../layout/JobPostingLayout";
 
@@ -12,23 +12,7 @@ import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
 
 const validationSchema = yup.object({
-  name: yup
-    .string("Ingresa tu nombre completo")
-    .required("Campo requerido")
-    .matches(
-      /^[^$%&|<>#*!¿?¡]*$/,
-      "Nombre no puede contener caracteres especiales ($%&|<>#*)"
-    )
-    .max(50, "Máximo 50 caracteres"),
-  email: yup
-    .string()
-    .email("Ingresa un email valido")
-    .required("El email es requerido")
-    .max(50, "Máxim0 50 caracteres"),
-  phone: yup
-    .string("Ingresa tú numero de telefonico")
-    .required("Campo requerido")
-    .matches(/^\+5[0-9]\d{9}$/, "Número telefonico no valido"),
+ 
   lastLaboralExperience: yup
     .string("Inresa tú ultima experiencia laboral")
     .max(300, "Máximo 300 caracteres")
@@ -38,30 +22,44 @@ const validationSchema = yup.object({
 
 export const JobAplicant = () => {
 
+
+  const [postulants,setPostulants] = useState([]);
   //parametro id url
 
   const {id : jobId} = useParams();
 
-  console.log(jobId)
+useEffect(() => {
+ getPostulants()
+}, [])
+
+
+const getPostulants = async () =>{
+ try {
+   const {data} =  await jobPostingAPi.get("/postulant");
+  setPostulants(data.registros)
+   console.log(data.registros);
+ } catch (error) {
+  console.log(error)
+ }
+}
 
   const onSubmitForm = async (values, actions) => {
  
+ 
     const formData = new FormData();
-    const { name, email, phone, lastLaboralExperience, curriculum } = values;
-    formData.append("jobId",jobId)
-    formData.append("name", name);
-    formData.append("email", email);
-    formData.append("phone", phone);
-    formData.append("lastLaboralExperience", lastLaboralExperience);
+    const { lastLaboralExperience, curriculum,postulant } = values;
+
+    formData.append("jobId",jobId);
+    formData.append("postulantId",postulant);
+    formData.append("experience", lastLaboralExperience);
     formData.append("curriculum", curriculum);
 
-   
     try {
-       const res = await jobPostingAPi.post("/applicant",formData);
-          console.log(res);
+       const res = await jobPostingAPi.post("/postulation",formData);
            actions.resetForm();
     } catch (error) {
 
+      console.log(error)
        const msg = error.response.data.errors[0].msg;
 
        Swal.fire('Error',msg,"error")
@@ -72,10 +70,9 @@ export const JobAplicant = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      email: "",
-      phone: "",
+     
       lastLaboralExperience: "",
+      postulant:"",
       curriculum: null,
     },
     validationSchema: validationSchema,
@@ -144,42 +141,6 @@ export const JobAplicant = () => {
                 >
                   <TextField
                     fullWidth
-                    id="name"
-                    name="name"
-                    label="Nombre"
-                    placeholder="Ej: Daniel Araya Norambuena"
-                    value={values.name}
-                    onChange={handleChange}
-                    error={touched.name && Boolean(errors.name)}
-                    helperText={touched.name && errors.name}
-                  />
-
-                  <TextField
-                    fullWidth
-                    id="email"
-                    name="email"
-                    label="Email"
-                    placeholder="Ej: abcd@gmail.com"
-                    value={values.email}
-                    onChange={handleChange}
-                    error={touched.email && Boolean(errors.email)}
-                    helperText={touched.email && errors.email}
-                  />
-
-                  <TextField
-                    fullWidth
-                    id="phone"
-                    name="phone"
-                    label="Teléfono"
-                    placeholder="Ej:+56912345678"
-                    value={values.phone}
-                    onChange={handleChange}
-                    error={touched.phone && Boolean(errors.phone)}
-                    helperText={touched.phone && errors.phone}
-                  />
-
-                  <TextField
-                    fullWidth
                     multiline
                     id="lastLaboralExperience"
                     name="lastLaboralExperience"
@@ -195,6 +156,28 @@ export const JobAplicant = () => {
                       errors.lastLaboralExperience
                     }
                   />
+
+                  <FormControl
+                    error={touched.postulant && Boolean(errors.postulant)}
+                  >
+                    <InputLabel id="postulant">Postulantes</InputLabel>
+                    <Select
+                      labelId="postulant"
+                      name="postulant"
+                      label="Lugar de Trabajo"
+                      value={values.postulant}
+                      onChange={handleChange}
+                    >
+                      {postulants.map((postulant) => (
+                        <MenuItem key={postulant.id} value={postulant.id}>
+                          {postulant.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    <FormHelperText>
+                      {touched.postulant && errors.postulant}
+                    </FormHelperText>
+                  </FormControl>
 
                   <Grid item>
                     <input
