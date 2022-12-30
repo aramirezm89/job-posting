@@ -83,7 +83,13 @@ export const CreateRecruiter = () => {
           alignContent="center"
         >
           <Grid item sx={{ mb: 3 }}>
-            <Typography variant="h5">Crear reclutador</Typography>
+            <Typography
+              className="animate__animated
+                animate__lightSpeedInLeft"
+              variant="h5"
+            >
+              Crear reclutador
+            </Typography>
             <hr />
           </Grid>
 

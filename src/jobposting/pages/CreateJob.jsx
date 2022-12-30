@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import * as yup from "yup";
 import { getJobTypes, getRecruiters } from "../../api/apiFunctions";
 import jobPostingAPi from "../../api/jobPostingApi";
@@ -53,14 +54,14 @@ useEffect( () => {
 
 
   const onSubmitForm = async (values, actions) => {
-   console.log(values)
+ 
     try {
-     const res = await jobPostingAPi.post('/job',values);
+      await jobPostingAPi.post('/job',values);
 
-     console.log(res)
+    Swal.fire('Bien!!','Registro creado con éxito','success')
 
     } catch (error) {
-      console.log(error);
+      Swal.fire('Error','Error al guardar el registro','error')
 
     }
     actions.resetForm();
