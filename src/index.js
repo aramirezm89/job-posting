@@ -5,15 +5,19 @@ import reportWebVitals from './reportWebVitals';
 import { JobPostingApp } from './JobPostingApp';
 import { AppTheme } from './theme';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <AppTheme>
-        <JobPostingApp />
-      </AppTheme>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <AppTheme>
+          <JobPostingApp />
+        </AppTheme>
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );
 

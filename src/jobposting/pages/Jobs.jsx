@@ -77,7 +77,7 @@ export const Jobs = () => {
               className="animate__animated
                 animate__lightSpeedInLeft"
             >
-              Listado Empleos
+              Tablero de  Empleos
             </Typography>
             <Divider />
           </Grid>
