@@ -1,12 +1,13 @@
-import { GoogleLogin } from "react-google-login";
-import { gapi } from "gapi-script";
-import { useEffect } from "react";
-import jobPostingAPi from "../../api/jobPostingApi";
-import { Button, Typography } from "@mui/material";
 import { Google } from "@mui/icons-material";
+import { Button, Typography } from "@mui/material";
+import { gapi } from "gapi-script";
+import { useEffect, useMemo } from "react";
+import { GoogleLogin } from "react-google-login";
 import { useAuthStore } from "../../hooks/useAuthStore";
 
 export const GoogleSigIn = () => {
+   const {status} = useAuthStore();
+    const isAuthenticating = useMemo(() => status === 'checking',[status])
   const { startLoginGoogle } = useAuthStore();
   const responseGoogle = async (response) => {
     startLoginGoogle(response);
@@ -36,9 +37,10 @@ export const GoogleSigIn = () => {
             variant="contained"
             fullWidth
           >
-            <Google /> <Typography sx={{ ml: 1 }}>Google</Typography>
+            <Google /> <Typography sx={{ ml: 1 }}>VARIACODE</Typography>
           </Button>
         )}
+        disabled={isAuthenticating}
         className="googleButton"
         clientId={clientID}
         buttonText="Login"

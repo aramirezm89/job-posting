@@ -1,18 +1,28 @@
 /* eslint-disable no-useless-escape */
-import { Button, Card, CardContent, FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  FormControl,
+  FormHelperText,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import * as yup from "yup";
 import { JobPostingLayout } from "../layout/JobPostingLayout";
 
-
 import jobPostingAPi from "../../api/jobPostingApi";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
 
 const validationSchema = yup.object({
- 
   lastLaboralExperience: yup
     .string("Inresa tú ultima experiencia laboral")
     .max(300, "Máximo 300 caracteres")
@@ -22,57 +32,50 @@ const validationSchema = yup.object({
 
 export const JobAplicant = () => {
 
-
-  const [postulants,setPostulants] = useState([]);
+  
+  const [postulants, setPostulants] = useState([]);
   //parametro id url
 
-  const {id : jobId} = useParams();
+  const { id: jobId } = useParams();
 
-useEffect(() => {
- getPostulants()
-}, [])
+  useEffect(() => {
+    getPostulants();
+  }, []);
 
-
-const getPostulants = async () =>{
- try {
-   const {data} =  await jobPostingAPi.get("/postulant");
-  setPostulants(data.registros)
-   console.log(data.registros);
- } catch (error) {
-  console.log(error)
- }
-}
+  const getPostulants = async () => {
+    try {
+      const { data } = await jobPostingAPi.get("/postulant");
+      setPostulants(data.registros);
+      console.log(data.registros);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const onSubmitForm = async (values, actions) => {
- 
- 
     const formData = new FormData();
-    const { lastLaboralExperience, curriculum,postulant } = values;
+    const { lastLaboralExperience, curriculum, postulant } = values;
 
-    formData.append("jobId",jobId);
-    formData.append("postulantId",postulant);
+    formData.append("jobId", jobId);
+    formData.append("postulantId", postulant);
     formData.append("experience", lastLaboralExperience);
     formData.append("curriculum", curriculum);
 
     try {
-       const res = await jobPostingAPi.post("/postulation",formData);
-           actions.resetForm();
+      const res = await jobPostingAPi.post("/postulation", formData);
+      actions.resetForm();
     } catch (error) {
+      console.log(error);
+      const msg = error.response.data.errors[0].msg;
 
-      console.log(error)
-       const msg = error.response.data.errors[0].msg;
-
-       Swal.fire('Error',msg,"error")
+      Swal.fire("Error", msg, "error");
     }
-
-   
   };
 
   const formik = useFormik({
     initialValues: {
-     
       lastLaboralExperience: "",
-      postulant:"",
+      postulant: "",
       curriculum: null,
     },
     validationSchema: validationSchema,
@@ -92,20 +95,23 @@ const getPostulants = async () =>{
   const handleFileInput = (event) => {
     const { target } = event;
 
-
-   if (target.files[0].size > 5242880){
-     //TODO:Mandar alerta
-     Swal.fire("Error", "El archivo debe tener un tamaño máximo de 5 mb", "error");
-   }
-     if (target.files[0].type !== "application/pdf") {
-       //TODO:Mandar alerta
-       Swal.fire(
-         "Error",
-         "Solo se permite formato pdf para curriculum",
-         "error"
-       );
-       return;
-     }
+    if (target.files[0].size > 5242880) {
+      //TODO:Mandar alerta
+      Swal.fire(
+        "Error",
+        "El archivo debe tener un tamaño máximo de 5 mb",
+        "error"
+      );
+    }
+    if (target.files[0].type !== "application/pdf") {
+      //TODO:Mandar alerta
+      Swal.fire(
+        "Error",
+        "Solo se permite formato pdf para curriculum",
+        "error"
+      );
+      return;
+    }
 
     handleChange(event);
     setFieldValue("curriculum", target.files[0]);

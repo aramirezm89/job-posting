@@ -2,17 +2,23 @@ import {
   Button,
   Grid,
   Link,
-  TextField
+  TextField,
+  Typography
 } from "@mui/material";
 import { useFormik } from "formik";
+import { useMemo } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import * as yup from "yup";
+import { useAuthStore } from "../../hooks/useAuthStore";
 import { GoogleSigIn } from "../components/GoogleSigIn";
 
 import { AuthLayout } from "../layout/AuthLayout";
 
 export const LoginPage = () => {
  
+  const {status} = useAuthStore();
+
+  const isAuthenticating = useMemo(() => status === 'checking',[status])
 
   const validationSchema = yup.object({
     email: yup
@@ -32,9 +38,6 @@ export const LoginPage = () => {
     actions.resetForm();
   };
 
-  const onGoogleSignIn = () => {
-    
-  };
 
   const formik = useFormik({
     initialValues: {
@@ -48,12 +51,15 @@ export const LoginPage = () => {
   const { handleSubmit, handleChange, isSubmitting, values, errors, touched } =
     formik;
   return (
-    <AuthLayout title="Login">
+    <AuthLayout>
       <form
         className="animate__animated animate__fadeIn animate__faster"
         onSubmit={handleSubmit}
       >
         <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h5">Login</Typography>
+          </Grid>
           {/* correo */}
           <Grid item xs={12}>
             <TextField
@@ -85,11 +91,10 @@ export const LoginPage = () => {
           </Grid>
 
           <Grid container item spacing={1}>
-           
             <Grid item xs={12} sm={6}>
               <Button
                 type="submit"
-              
+                disabled={isAuthenticating}
                 variant="contained"
                 fullWidth
               >
@@ -97,8 +102,9 @@ export const LoginPage = () => {
               </Button>
             </Grid>
 
+            {/*  googleAuthComponent */}
             <Grid item xs={12} sm={6}>
-         <GoogleSigIn/>
+              <GoogleSigIn />
             </Grid>
           </Grid>
         </Grid>

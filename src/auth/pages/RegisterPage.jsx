@@ -1,18 +1,15 @@
 /* eslint-disable no-useless-escape */
 import {
-  Button,
-  Card,
-  CardContent,
-  Grid,
-  TextField,
-  Typography,
+  Button, Grid, Link, TextField,
+  Typography
 } from "@mui/material";
-import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import React from "react";
+import { Link as RouterLink } from "react-router-dom";
 import * as yup from "yup";
 import jobPostingAPi from "../../api/jobPostingApi";
-
+import { alertError, alertSuccess } from "../../helpers/alertHandler";
+import { AuthLayout } from "../layout/AuthLayout";
 
 const validationSchema = yup.object({
   name: yup
@@ -23,7 +20,7 @@ const validationSchema = yup.object({
       "Nombre no puede contener caracteres especiales ($%&|<>#*)"
     )
     .max(50, "Máximo 50 caracteres"),
-     lastname: yup
+  lastname: yup
     .string()
     .matches(
       /^[^$%&|<>#*!¿?¡]*$/,
@@ -40,21 +37,22 @@ const validationSchema = yup.object({
     .matches(/^\+5[0-9]\d{9}$/, "Número telefonico no valido"),
 });
 export const RegisterPage = () => {
-
-  const onSubmitForm = async (values,actions) =>{
-    console.log(values)
-
+  const onSubmitForm = async (values, actions) => {
+   
     try {
-    const res = await  jobPostingAPi.post('/postulant',values)
-    console.log(res)
+      const res = await jobPostingAPi.post("/postulant", values);
+      if(res.status === 201){
+        alertSuccess('Cuenta creada con éxito')
+      }
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      alertError('Error al realizar la acción')
     }
-  }
+  };
   const formik = useFormik({
     initialValues: {
       name: "",
-      lastname:"",
+      lastname: "",
       email: "",
       phone: "",
       roleId: "610f513a",
@@ -63,107 +61,100 @@ export const RegisterPage = () => {
     onSubmit: onSubmitForm,
   });
 
-  const {
-    values,
-    errors,
-    handleChange,
-    handleSubmit,
-    touched,
-    isSubmitting,
-  } = formik;
+  const { values, errors, handleChange, handleSubmit, touched, isSubmitting } =
+    formik;
 
   return (
     <>
-      <Grid
-        container
-        sx={{ minHeight: "75vh" }}
-        display="grid"
-        justifyContent="center"
-        alignContent="center"
-      >
-        <Grid item sx={{ mb: 3 }}>
-          <Typography
-            variant="h5"
-            className="animate__animated
-                animate__lightSpeedInLeft"
-          >
-            Formulario de solicitud de trabajo
-          </Typography>
-          <hr />
-        </Grid>
-
-        <Card sx={{ width: "100%" }}>
-          <CardContent>
-            <Grid item>
-              <form
-                onSubmit={handleSubmit}
-                style={{ width: "40vw", display: "grid", gap: 20 }}
-              >
-                {/*    name */}
-                <TextField
-                  fullWidth
-                  id="name"
-                  name="name"
-                  label="Nombre"
-                  placeholder="Ej: Daniel Araya Norambuena"
-                  value={values.name}
-                  onChange={handleChange}
-                  error={touched.name && Boolean(errors.name)}
-                  helperText={touched.name && errors.name}
-                />
-
-                {/* lastName */}
-                <TextField
-                  fullWidth
-                  multiline
-                  id="lastname"
-                  name="lastname"
-                  label="Apellidos"
-                  value={values.lastname}
-                  onChange={handleChange}
-                  error={touched.lastname && Boolean(errors.lastname)}
-                  helperText={touched.lastname && errors.lastname}
-                />
-
-                {/* email */}
-                <TextField
-                  fullWidth
-                  id="email"
-                  name="email"
-                  label="Email"
-                  placeholder="Ej: abcd@gmail.com"
-                  value={values.email}
-                  onChange={handleChange}
-                  error={touched.email && Boolean(errors.email)}
-                  helperText={touched.email && errors.email}
-                />
-                {/* phone */}
-                <TextField
-                  fullWidth
-                  id="phone"
-                  name="phone"
-                  label="Teléfono"
-                  placeholder="Ej:+56912345678"
-                  value={values.phone}
-                  onChange={handleChange}
-                  error={touched.phone && Boolean(errors.phone)}
-                  helperText={touched.phone && errors.phone}
-                />
-
-                <Button
-                  color="primary"
-                  variant="contained"
-                  fullWidth
-                  type="submit"
-                  disabled={isSubmitting}
-                >
-                  Guardar
-                </Button>
-              </form>
+      <AuthLayout>
+        <form
+          className="animate__animated animate__fadeIn animate__faster"
+          onSubmit={handleSubmit}
+        >
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography variant="h5">Crear cuenta</Typography>
             </Grid>
-          </CardContent>
-        </Card>
-      </Grid>
+            {/*    name */}
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                id="name"
+                name="name"
+                label="Nombre"
+                placeholder="Ej: Daniel Araya Norambuena"
+                value={values.name}
+                onChange={handleChange}
+                error={touched.name && Boolean(errors.name)}
+                helperText={touched.name && errors.name}
+              />
+            </Grid>
+
+            {/* lastName */}
+
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                multiline
+                id="lastname"
+                name="lastname"
+                label="Apellidos"
+                value={values.lastname}
+                onChange={handleChange}
+                error={touched.lastname && Boolean(errors.lastname)}
+                helperText={touched.lastname && errors.lastname}
+              />
+            </Grid>
+            {/* email */}
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                id="email"
+                name="email"
+                label="Email"
+                placeholder="Ej: abcd@gmail.com"
+                value={values.email}
+                onChange={handleChange}
+                error={touched.email && Boolean(errors.email)}
+                helperText={touched.email && errors.email}
+              />
+            </Grid>
+
+            {/* phone */}
+
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                id="phone"
+                name="phone"
+                label="Teléfono"
+                placeholder="Ej:+56912345678"
+                value={values.phone}
+                onChange={handleChange}
+                error={touched.phone && Boolean(errors.phone)}
+                helperText={touched.phone && errors.phone}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                color="primary"
+                variant="contained"
+                fullWidth
+                type="submit"
+                disabled={isSubmitting}
+              >
+                Guardar
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+        <Grid container direction="row" justifyContent="end" sx={{ mt: 1 }}>
+          <Typography sx={{ mr: 1 }}>¿Ya tienes cuenta?</Typography>
+          <Link color="inherit" component={RouterLink} to="/auth/login">
+            Login
+          </Link>
+        </Grid>
+      </AuthLayout>
     </>
   );
 };

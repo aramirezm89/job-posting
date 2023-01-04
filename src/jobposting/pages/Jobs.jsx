@@ -5,55 +5,13 @@ import { getJobs } from "../../api/apiFunctions";
 import { JobCard } from "../components";
 import { JobPostingLayout } from "../layout/JobPostingLayout";
 
-/* const jobs = [
-  {
-    jobId: 1,
-    position: "Ingreniero Node",
-    description: "Esta es una descripcion del empleo ",
-    location: "Santiago de chile",
-    recruiter: "Alberto Jara",
-    jobType: "Semi presencial",
-  },
-  {
-    jobId: 2,
-    position: "Ingreniero Node",
-    description: "Esta es una descripcion del empleo ",
-    location: "Santiago de chile",
-    recruiter: "Alberto Jara",
-    jobType: "Semi presencial",
-  },
-  {
-    jobId: 3,
-    position: "Ingreniero Node",
-    description: "Esta es una descripcion del empleo ",
-    location: "Santiago de chile",
-    recruiter: "Alberto Jara",
-    jobType: "Semi presencial",
-  },
-  {
-    jobId: 4,
-    position: "Ingreniero Node",
-    description: "Esta es una descripcion del empleo ",
-    location: "Santiago de chile",
-    recruiter: "Alberto Jara",
-    jobType: "Semi presencial",
-  },
-  {
-    jobId: 5,
-    position: "Ingreniero Node",
-    description: "Esta es una descripcion del empleo ",
-    location: "Santiago de chile",
-    recruiter: "Alberto Jara",
-    jobType: "Semi presencial",
-  },
-]; */
+
 export const Jobs = () => {
 
   const [jobs,setJobs] = useState([])
 
   useEffect(() => {
   getJobs().then(({data}) => {
-    console.log(data)
     setJobs(data.registros)
   })
   }, [])

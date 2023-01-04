@@ -3,15 +3,17 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { CreateRecruiter } from '../../admin/pages';
 import { GoogleSigIn } from '../../auth/components/GoogleSigIn';
 import { RegisterPage } from '../../auth/pages/RegisterPage';
+import { useAuthStore } from '../../hooks';
 import { CreateJob, HomePage, JobAplicant, JobPostingPage, Jobs, LinkedinPage } from '../pages';
 
 
 
 export const JobPostingRoutes = () => {
   
+
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
+      <Route path="/" element={<HomePage /> } />
       <Route path="/jobPosting" element={<JobPostingPage />} />
       <Route path="/linkedin" element={<LinkedinPage />} />
       <Route path="/register" element={<RegisterPage />} />
@@ -21,8 +23,8 @@ export const JobPostingRoutes = () => {
       <Route path="google" element={<GoogleSigIn />} />
 
       {/*  //admin */}
-
       <Route path="/createRecruiter" element={<CreateRecruiter />} />
+      
 
       <Route path="/*" element={<Navigate to="/" />} />
     </Routes>

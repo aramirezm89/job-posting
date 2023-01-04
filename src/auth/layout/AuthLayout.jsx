@@ -1,6 +1,6 @@
 import { Grid, Typography } from "@mui/material";
 
-export const AuthLayout = ({ children, title = "" }) => {
+export const AuthLayout = ({ children }) => {
   return (
     <>
       <Grid
@@ -11,6 +11,17 @@ export const AuthLayout = ({ children, title = "" }) => {
         alignItems="center"
         sx={{ minHeight: "100vh", backgroundColor: "primary.main", padding: 4 }}
       >
+        <Grid item>
+           <Typography
+                variant="h2"
+                 sx={{mb:5,color:'white'}}
+                className="animate__animated
+                animate__lightSpeedInLeft"
+              >
+                VARIACODE
+              </Typography>
+            
+        </Grid>
         <Grid
           item
           className="box-shadow"
@@ -22,10 +33,6 @@ export const AuthLayout = ({ children, title = "" }) => {
             width: { md: 500 },
           }}
         >
-          <Typography variant="h5" sx={{ mb: 1 }}>
-            {title}
-          </Typography>
-
           {children}
         </Grid>
       </Grid>
