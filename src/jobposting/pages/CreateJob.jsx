@@ -9,7 +9,7 @@ import {
   MenuItem,
   Select,
   TextField,
-  Typography
+  Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
@@ -17,6 +17,7 @@ import Swal from "sweetalert2";
 import * as yup from "yup";
 import { getJobTypes, getRecruiters } from "../../api/apiFunctions";
 import jobPostingAPi from "../../api/jobPostingApi";
+import { getCountriesSouthAmerica } from "../../api/restCountries/restCountries";
 
 import { JobPostingLayout } from "../layout/JobPostingLayout";
 
@@ -38,31 +39,26 @@ const validationSchema = yup.object({
 });
 
 export const CreateJob = () => {
-
-  const [recruiters,setRecruiters] = useState([]);
-  const [jobTypes,setJobTypes] = useState([]);
-
-useEffect( () => {
-   getRecruiters().then(({data}) => {
-    setRecruiters(data.registros);
-   });
-   getJobTypes().then(({data}) =>{
-    setJobTypes(data.registros)
-    setJobTypes(data.registros)
-   })
-}, [])
-
+  const [recruiters, setRecruiters] = useState([]);
+  const [jobTypes, setJobTypes] = useState([]);
+  const [countries, setCountries] = useState([]);
+  useEffect(() => {
+    getRecruiters().then(({ data }) => {
+      setRecruiters(data.registros);
+    });
+    getJobTypes().then(({ data }) => {
+      setJobTypes(data.registros);
+      setJobTypes(data.registros);
+    });
+  }, []);
 
   const onSubmitForm = async (values, actions) => {
- 
     try {
-      await jobPostingAPi.post('/job',values);
+      await jobPostingAPi.post("/job", values);
 
-    Swal.fire('Bien!!','Registro creado con éxito','success')
-
+      Swal.fire("Bien!!", "Registro creado con éxito", "success");
     } catch (error) {
-      Swal.fire('Error','Error al guardar el registro','error')
-
+      Swal.fire("Error", "Error al guardar el registro", "error");
     }
     actions.resetForm();
   };
@@ -79,6 +75,12 @@ useEffect( () => {
     onSubmit: onSubmitForm,
   });
 
+  useEffect(() => {
+    getCountriesSouthAmerica().then((countries) => {
+      console.log(countries);
+      setCountries(countries.data);
+    });
+  }, []);
   const { values, errors, handleChange, handleSubmit, touched, isSubmitting } =
     formik;
 
@@ -135,17 +137,30 @@ useEffect( () => {
                 />
 
                 {/* location */}
-                <TextField
-                  fullWidth
-                  id="location"
-                  name="location"
-                  label="Ubicacion"
-                  placeholder="Santiago, Chile"
-                  value={values.location}
-                  onChange={handleChange}
+                <FormControl
                   error={touched.location && Boolean(errors.location)}
-                  helperText={touched.location && errors.location}
-                />
+                >
+                  <InputLabel id="location">Ubicacion</InputLabel>
+                  <Select
+                    labelId="location"
+                    name="location"
+                    value={values.location}
+                    onChange={handleChange}
+                    label="location"
+                  >
+                    {countries.map(({ name, capital }) => (
+                      <MenuItem
+                        key={name.common}
+                        value={`${name.common}, ${capital[0]}`}
+                      >
+                        {name.common}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  <FormHelperText>
+                    {touched.location && errors.location}
+                  </FormHelperText>
+                </FormControl>
 
                 {/*   recruiterId */}
                 <FormControl
