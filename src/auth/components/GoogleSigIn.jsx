@@ -6,9 +6,12 @@ import { GoogleLogin } from "react-google-login";
 import { useAuthStore } from "../../hooks/useAuthStore";
 
 export const GoogleSigIn = () => {
-   const {status} = useAuthStore();
-    const isAuthenticating = useMemo(() => status === 'checking',[status])
+
+  const { status } = useAuthStore();
+  const isAuthenticating = useMemo(() => status === "checking", [status]);
+
   const { startLoginGoogle } = useAuthStore();
+  
   const responseGoogle = async (response) => {
     startLoginGoogle(response);
   };
@@ -48,7 +51,6 @@ export const GoogleSigIn = () => {
         onFailure={responseGoogle}
         cookiePolicy={"single_host_origin"}
         responseType="id_token permission"
-       
       />
     </>
   );

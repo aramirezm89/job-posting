@@ -9,4 +9,11 @@ const jobPostingAPi = axios.create({
 
 //TODO: configurar interceptores
 
+jobPostingAPi.interceptors.request.use(config =>{
+  config.headers = {
+    ...config.headers,
+    'x-token':localStorage.getItem('token') 
+  }
+  return config;
+})
 export default jobPostingAPi;

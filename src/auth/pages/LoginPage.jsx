@@ -16,7 +16,7 @@ import { AuthLayout } from "../layout/AuthLayout";
 
 export const LoginPage = () => {
  
-  const {status} = useAuthStore();
+  const { status, startLoginUser } = useAuthStore();
 
   const isAuthenticating = useMemo(() => status === 'checking',[status])
 
@@ -25,16 +25,17 @@ export const LoginPage = () => {
       .string()
       .email("Debés ingresar un email valido")
       .required("Campo obligatorio"),
-    password: yup
+   /*  password: yup
       .string()
       .min(6, "La contraseña debe tener por lo menos 6 caracteres")
       .max(20, "La contraseña debe tener maximo 20 caracteres")
-      .required("Campo Obligatorio"),
+      .required("Campo Obligatorio"), */
   });
 
   const onSubmit = (values, actions) => {
   
-    console.log(values)
+   
+   startLoginUser(values)
     actions.resetForm();
   };
 
@@ -42,7 +43,7 @@ export const LoginPage = () => {
   const formik = useFormik({
     initialValues: {
       email: "",
-      password: "",
+     /*  password: "", */
     },
     validationSchema: validationSchema,
     onSubmit: onSubmit,
@@ -76,7 +77,7 @@ export const LoginPage = () => {
             />
           </Grid>
           {/* contraseña */}
-          <Grid item xs={12}>
+        {/*   <Grid item xs={12}>
             <TextField
               fullWidth
               id="password"
@@ -88,7 +89,7 @@ export const LoginPage = () => {
               error={touched.password && Boolean(errors.password)}
               helperText={touched.password && errors.password}
             />
-          </Grid>
+          </Grid> */}
 
           <Grid container item spacing={1}>
             <Grid item xs={12} sm={6}>

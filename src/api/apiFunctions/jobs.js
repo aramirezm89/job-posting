@@ -9,3 +9,14 @@ export const getJobs = async () => {
     return error;
   }
 };
+
+
+export const getJobsById = async (id) =>{
+  try{
+    const res  = await  jobPostingAPi.get(`/job/recruiter:${id}`)
+ return res
+  }catch (error) {
+    console.log(error);
+    return error;
+  }
+}

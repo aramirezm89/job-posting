@@ -18,6 +18,7 @@ import * as yup from "yup";
 import { getJobTypes, getRecruiters } from "../../api/apiFunctions";
 import jobPostingAPi from "../../api/jobPostingApi";
 import { getCountriesSouthAmerica } from "../../api/restCountries/restCountries";
+import { useAuthStore } from "../../hooks";
 
 import { JobPostingLayout } from "../layout/JobPostingLayout";
 
@@ -39,12 +40,13 @@ const validationSchema = yup.object({
 });
 
 export const CreateJob = () => {
-  const [recruiters, setRecruiters] = useState([]);
+
   const [jobTypes, setJobTypes] = useState([]);
   const [countries, setCountries] = useState([]);
+  const {user} = useAuthStore();
   useEffect(() => {
     getRecruiters().then(({ data }) => {
-      setRecruiters(data.registros);
+    
     });
     getJobTypes().then(({ data }) => {
       setJobTypes(data.registros);
@@ -68,7 +70,7 @@ export const CreateJob = () => {
       position: "",
       description: "",
       location: "",
-      recruiterId: "",
+      recruiterId: user.id,
       jobTypeId: "",
     },
     validationSchema: validationSchema,
@@ -76,6 +78,7 @@ export const CreateJob = () => {
   });
 
   useEffect(() => {
+    
     getCountriesSouthAmerica().then((countries) => {
       console.log(countries);
       setCountries(countries.data);
@@ -163,7 +166,7 @@ export const CreateJob = () => {
                 </FormControl>
 
                 {/*   recruiterId */}
-                <FormControl
+              {/*   <FormControl
                   error={touched.recruiterId && Boolean(errors.recruiterId)}
                 >
                   <InputLabel id="recruiterId">Reclutador</InputLabel>
@@ -184,7 +187,7 @@ export const CreateJob = () => {
                     {touched.recruiterId && errors.recruiterId}
                   </FormHelperText>
                 </FormControl>
-
+ */}
                 {/*jobTypeId*/}
                 <FormControl
                   error={touched.jobTypeId && Boolean(errors.jobTypeId)}

@@ -1,13 +1,11 @@
 import {
-  Button,
   Card,
   CardActions,
   CardContent,
-  Typography,
+  Typography
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { getJobTypesById, getRecruiterById } from "../../api/apiFunctions";
 
 export const JobCard = ({ job = {} }) => {
 

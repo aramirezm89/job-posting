@@ -41,7 +41,7 @@ export const RegisterPage = () => {
    
     try {
       const res = await jobPostingAPi.post("/postulant", values);
-      if(res.status === 201){
+      if(res.status === 201 || 200){
         alertSuccess('Cuenta creada con éxito')
       }
     } catch (error) {
