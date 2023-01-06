@@ -32,6 +32,7 @@ const adminMenu = [
 ];
 
 const userMenu = [
+  { label: "Home", icon: <Home />, path: "/" },
   { label: "Mi cuenta", icon: <Person />, path: "/user" },
   { label: "Tablero de empleos", icon: <List />, path: "/jobs" },
 ];
