@@ -42,7 +42,7 @@ export const UserPage = () => {
                 <Typography gutterBottom>Nombre : {user.postulant}</Typography>
                 <Divider />
               </Box>
-              <Box>
+              <Box paddingBottom={2}>
                 <Typography gutterBottom>Email : {user.email}</Typography>
                 <Divider />
               </Box>
