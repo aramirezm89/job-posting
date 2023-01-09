@@ -1,17 +1,18 @@
-import React, { useEffect, useMemo } from "react";
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Route, Routes } from "react-router-dom";
 import { AuthRoutes } from "../auth/routes/AuthRoutes";
 import { useAuthStore } from '../hooks';
 import { JobPostingRoutes } from "../jobposting/routes/JobPostingRoutes";
 import { CheckingAuthComponent } from "../ui/components";
 import { PrivateRoute } from "./PrivateRoutes";
-import { PublicRoutes } from "./PublicRoutes";  
+import { PublicRoutes } from "./PublicRoutes";
 
 export const AppRouter = () => {
   const { checkAuthToken, checkAuthPostulantLogin } = useAuthStore();
 
   useEffect(() => {
     const token = localStorage.getItem("token") || null;
+ 
     if (token !== null) {
       checkAuthToken();
     } else {
@@ -19,23 +20,7 @@ export const AppRouter = () => {
     }
   }, []);
 
-  /* 
 
-  const { status } = useAuthStore();
-
-  if (status === "checking") return <CheckingAuthComponent />;
-
-  return (
-    <Routes>
-      {status === "authenticated" ? (
-        <Route path="/*" element={<JobPostingRoutes  />}  />
-      ) : (
-        <Route path="auth/*" element={<AuthRoutes />} />
-      )}
-
-      <Route path="/*" element={<Navigate to="/auth/login" replace />} />
-    </Routes>
-  ); */
 
   const { status } = useAuthStore();
   if (status === "checking") return <CheckingAuthComponent />;
@@ -44,7 +29,7 @@ export const AppRouter = () => {
     <>
       <Routes>
         <Route
-          path="/auth*"
+          path="/*"
           element={
             <PublicRoutes>
               <AuthRoutes />
@@ -53,7 +38,7 @@ export const AppRouter = () => {
         />
 
         <Route
-          path="/*"
+          path="dashboard/*"
           element={
             <PrivateRoute>
               <JobPostingRoutes />

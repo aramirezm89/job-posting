@@ -8,7 +8,8 @@ import MenuButtonOptions from "./MenuButtonOptions";
 
 export const NavBar = ({ drawerWith = 240, handdleDrawer }) => {
 
-
+  const {status} = useAuthStore();
+  
   const state = useMemo(() => handdleDrawer, [handdleDrawer]);
   return (
     <AppBar
@@ -20,23 +21,25 @@ export const NavBar = ({ drawerWith = 240, handdleDrawer }) => {
     >
       <Toolbar style={{ display: "flex", justifyContent: "space-between" }}>
         <Box sx={{ display: "flex" }}>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-            onClick={() => handdleDrawer()}
-          >
-            <MenuOutlined />
-          </IconButton>
+          {status === "authenticated" && (
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+              onClick={(e) => handdleDrawer(e)}
+            >
+              <MenuOutlined />
+            </IconButton>
+          )}
           <img alt="variacode" src={logo} style={{ width: "5rem" }} />
         </Box>
         <Box>
           {/*   <IconButton style={{ color: "white" }} onClick={onLogout}>
             <LogoutOutlined />
           </IconButton> */}
-          <MenuButtonOptions/>
+          <MenuButtonOptions />
         </Box>
       </Toolbar>
     </AppBar>

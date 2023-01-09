@@ -8,7 +8,14 @@ const drawerWith = 240;
 export const JobPostingLayout = ({children}) => {
      const [open, setOpen] = useState(false);
 
-     const handdleDrawer = () => {
+     const handdleDrawer = (event) => {
+   
+         if (
+           event.type === "keydown" &&
+           (event.key === "Tab" || event.key === "Shift")
+         ) {
+           return;
+         }
        setOpen(!open);
      };
 
@@ -26,7 +33,7 @@ export const JobPostingLayout = ({children}) => {
         openDrawer={open}
         handdleDrawer={handdleDrawer}
       />
-      <Box component="main" sx={{ flexGrow: 1, p: 1, mt:10,ml:5,mr:5 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 1, mt:10,ml:2,mr:2,display:"flex" ,justifyContent:"center"}}>
         {children}
       </Box>
     </Box>

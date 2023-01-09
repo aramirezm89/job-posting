@@ -7,34 +7,37 @@ import {
   IconButton, Toolbar,
   Typography
 } from "@mui/material";
-import { useEffect, useLayoutEffect } from "react";
 import { useAuthStore } from "../../hooks";
 import { SideBarMenuItems } from "./SideBarMenuItems";
 
 
-const menu = [
+/* const menu = [
   { label: "Home", icon: <Home />, path: "/" },
   { label: "Linkedin", icon: <LinkedIn />, path: "/jobPosting" },
 ];
 
-
+ */
 const jobMenu = [
-  { label: "Tablero de empleos", icon: <List />, path: "/jobs" },
-  { label: "Mis empleos creados", icon: <List />, path: "/recruiterJobs" },
-  { label: "Crear empleo", icon: <Add />, path: "/createJob" },
+  { label: "Tablero de empleos", icon: <List />, path: "/dashboard/jobs" },
+
+  {
+    label: "Mis empleos creados",
+    icon: <List />,
+    path: "/dashboard/jobsByRecruiter",
+  },
+  { label: "Crear empleo", icon: <Add />, path: "/dashboard/createJob" },
 ];
 
 
 
 const adminMenu = [
-  { label: "Crear reclutador", icon: <Add />, path: "/createRecruiter" },
+  { label: "Crear reclutador", icon: <Add />, path: "/dashboard/createRecruiter" },
  
 ];
 
 const userMenu = [
-  { label: "Home", icon: <Home />, path: "/" },
-  { label: "Mi cuenta", icon: <Person />, path: "/user" },
-  { label: "Tablero de empleos", icon: <List />, path: "/jobs" },
+  { label: "Mi cuenta", icon: <Person />, path: "/dashboard/user" },
+  { label: "Tablero de empleos", icon: <List />, path: "/dashboard/jobs" },
 ];
 
 
@@ -47,38 +50,23 @@ export const Sidebar = ({ drawerWith = 240, openDrawer, handdleDrawer }) => {
     <Box component="nav" sx={{ flexShrink: { sm: 0 } }}>
       <Drawer
         open={openDrawer}
+        onClose={(e) =>handdleDrawer(e)}
         sx={{
           display: { xs: "block" },
           "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWith },
         }}
       >
-        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Box display="flex" justifyContent="center" alignItems="center">
-            <Typography variant="h6" noWrap component="div">
-              Menu
-            </Typography>
-          </Box>
-          <IconButton onClick={handdleDrawer}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </Toolbar>
+      
         <Divider />
 
         {user.type === "postulant" ? (
           <>
             {/*user menu*/}
 
-
             <SideBarMenuItems menu={userMenu} />
-
-          
           </>
         ) : (
           <>
-            <SideBarMenuItems menu={menu} />
-
-            <Divider />
-
             {/*   menuJob */}
             <Box
               sx={{
@@ -91,6 +79,7 @@ export const Sidebar = ({ drawerWith = 240, openDrawer, handdleDrawer }) => {
               <Typography variant="h6" noWrap component="div">
                 Empleos
               </Typography>
+             
             </Box>
 
             <Divider />

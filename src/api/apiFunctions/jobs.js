@@ -11,12 +11,24 @@ export const getJobs = async () => {
 };
 
 
-export const getJobsById = async (id) =>{
+export const getJobsByIdRecruiter = async (id) =>{
   try{
-    const res  = await  jobPostingAPi.get(`/job/recruiter:${id}`)
+    const res  = await  jobPostingAPi.get(`/job/recruiter/${id}`)
  return res
   }catch (error) {
     console.log(error);
+    return error;
+  }
+}
+
+
+export const getAccessTypeJob = async () =>{
+  try {
+    const res = await jobPostingAPi.get("jobAccessType");
+    return res;
+  } catch (error) {
+    console.log(error);
+
     return error;
   }
 }

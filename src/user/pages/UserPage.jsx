@@ -1,14 +1,14 @@
 import { Card, CardContent, Divider, Grid, Typography } from '@mui/material'
 import { Box } from '@mui/system';
 import React from 'react'
+import { useAuthStore } from '../../hooks';
 import { JobPostingLayout } from '../../jobposting/layout/JobPostingLayout';
 
 
-const user  = {
-  name:'Antonio Ramirez',
-  phone:'+56958633523'
-}
+
 export const UserPage = () => {
+
+  const {user} = useAuthStore();
   return (
     <JobPostingLayout>
       <Grid
@@ -39,16 +39,16 @@ export const UserPage = () => {
           <Card sx={{ width: "100%" }}>
             <CardContent>
               <Box paddingBottom={2}>
-                <Typography gutterBottom>Nombre : {user.name}</Typography>
+                <Typography gutterBottom>Nombre : {user.postulant}</Typography>
                 <Divider />
               </Box>
-              <Box paddingBottom={2}>
-                <Typography gutterBottom>Telefono : {user.phone}</Typography>
+              <Box>
+                <Typography gutterBottom>Email : {user.email}</Typography>
                 <Divider />
               </Box>
 
-              <Box>
-                <Typography gutterBottom>Nombre : {user.name}</Typography>
+              <Box paddingBottom={2}>
+                <Typography gutterBottom>Telefono : {user.phone}</Typography>
                 <Divider />
               </Box>
             </CardContent>

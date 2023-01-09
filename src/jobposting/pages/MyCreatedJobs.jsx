@@ -1,20 +1,21 @@
-import { Divider, Grid, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { getJobs } from "../../api/apiFunctions";
-import { JobCard } from "../components";
-import { JobPostingLayout } from "../layout/JobPostingLayout";
+import { Divider, Grid, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react'
+import { getJobsByIdRecruiter } from '../../api/apiFunctions';
+import { useAuthStore } from '../../hooks';
+import { JobCard } from '../components';
+import { JobPostingLayout } from '../layout/JobPostingLayout';
 
+export const MyCreatedJobs = () => {
 
-export const Jobs = () => {
-
-  const [jobs,setJobs] = useState([])
-
-  useEffect(() => {
-  getJobs().then(({data}) => {
-    console.log(data)
-    setJobs(data.registros)
-  })
-  }, [])
+      const {user} = useAuthStore();
+      const [jobs, setJobs] = useState([]);
+      
+      useEffect(() => {
+        getJobsByIdRecruiter(user.id).then(({ data }) => {
+            console.log(data)
+          setJobs(data.registros);
+        });
+      }, []);
   
   return (
     <>
@@ -37,7 +38,7 @@ export const Jobs = () => {
               className="animate__animated
                 animate__lightSpeedInLeft"
             >
-              Tablero de Empleos
+              Mis Empleos creados
             </Typography>
             <Divider />
           </Grid>
@@ -45,7 +46,7 @@ export const Jobs = () => {
           <Grid
             item
             display="flex"
-            sx={{flexWrap:'wrap'}}
+            sx={{ flexWrap: "wrap" }}
             justifyContent="space-evenly"
             alignItems="start"
             gap={3}
@@ -60,4 +61,4 @@ export const Jobs = () => {
       </JobPostingLayout>
     </>
   );
-};
+}

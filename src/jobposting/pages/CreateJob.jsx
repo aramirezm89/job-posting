@@ -15,7 +15,7 @@ import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import * as yup from "yup";
-import { getJobTypes, getRecruiters } from "../../api/apiFunctions";
+import { getAccessTypeJob, getJobTypes, getRecruiters } from "../../api/apiFunctions";
 import jobPostingAPi from "../../api/jobPostingApi";
 import { getCountriesSouthAmerica } from "../../api/restCountries/restCountries";
 import { useAuthStore } from "../../hooks";
@@ -37,21 +37,27 @@ const validationSchema = yup.object({
     .required("Campo requerido"),
   recruiterId: yup.string().required("Campo requerido"),
   jobTypeId: yup.string().required("Campo requerido"),
+  accessTypeId: yup
+    .string("")
+    .max(80, "Máximo 80 caracteres")
+    .required("Campo requerido"),
 });
 
 export const CreateJob = () => {
 
   const [jobTypes, setJobTypes] = useState([]);
+  const [acceessType, setAccessType] = useState([]);
   const [countries, setCountries] = useState([]);
   const {user} = useAuthStore();
   useEffect(() => {
-    getRecruiters().then(({ data }) => {
-    
-    });
     getJobTypes().then(({ data }) => {
       setJobTypes(data.registros);
-      setJobTypes(data.registros);
     });
+
+    getAccessTypeJob().then(({data}) =>{
+      console.log(data)
+      setAccessType(data.registros)
+    })
   }, []);
 
   const onSubmitForm = async (values, actions) => {
@@ -72,6 +78,7 @@ export const CreateJob = () => {
       location: "",
       recruiterId: user.id,
       jobTypeId: "",
+      accessTypeId: "",
     },
     validationSchema: validationSchema,
     onSubmit: onSubmitForm,
@@ -166,7 +173,7 @@ export const CreateJob = () => {
                 </FormControl>
 
                 {/*   recruiterId */}
-              {/*   <FormControl
+                {/*   <FormControl
                   error={touched.recruiterId && Boolean(errors.recruiterId)}
                 >
                   <InputLabel id="recruiterId">Reclutador</InputLabel>
@@ -210,6 +217,30 @@ export const CreateJob = () => {
                     {touched.jobTypeId && errors.jobTypeId}
                   </FormHelperText>
                 </FormControl>
+
+                {/*accesstype*/}
+                <FormControl
+                  error={touched.accessTypeId && Boolean(errors.accessTypeId)}
+                >
+                  <InputLabel id="accessTypeId">Tipo de acceso</InputLabel>
+                  <Select
+                    labelId="accessTypeId"
+                    name="accessTypeId"
+                    label="Lugar de Trabajo"
+                    value={values.accessTypeId}
+                    onChange={handleChange}
+                  >
+                    {acceessType.map(({ id, type }) => (
+                      <MenuItem key={id} value={id}>
+                        {type}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  <FormHelperText>
+                    {touched.accessTypeId && errors.accessTypeId}
+                  </FormHelperText>
+                </FormControl>
+
                 <Button
                   color="primary"
                   variant="contained"

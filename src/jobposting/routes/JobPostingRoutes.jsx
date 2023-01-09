@@ -1,37 +1,63 @@
-import React, { useMemo } from 'react';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import React from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { CreateRecruiter } from '../../admin/pages';
-import { GoogleSigIn } from '../../auth/components/GoogleSigIn';
-import { RegisterPage } from '../../auth/pages/RegisterPage';
 import { useAuthStore } from '../../hooks';
-import { CheckingAuthComponent } from '../../ui/components';
 import { UserPage } from '../../user/pages/UserPage';
-import { CreateJob, HomePage, JobAplicant, JobPostingPage, Jobs, LinkedinPage } from '../pages';
-import { JobsByRecruiter } from '../pages/JobsByRecruiter';
+import { CreateJob, JobAplicant, JobPostingPage, Jobs, LinkedinPage,MyCreatedJobs } from '../pages';
+
 
 
 
 export const JobPostingRoutes = () => {
     
+  const {user} = useAuthStore();
 
   return (
     <Routes>
-      <Route path="home" element={<HomePage />} />
+      {/*   <Route path="home" element={<HomePage />} /> */}
+
       <Route path="jobPosting" element={<JobPostingPage />} />
       <Route path="linkedin" element={<LinkedinPage />} />
-      <Route path="register" element={<RegisterPage />} />
-      <Route path="createJob" element={<CreateJob />} />
-      <Route path="jobApplicant/:id" element={<JobAplicant />} />
-      <Route path="jobs" element={<Jobs />} />
-      <Route path="recruiterJobs" element={<JobsByRecruiter />} />
 
+      <Route
+        path="jobApplicant/:id"
+        element={
+          user.type === "postulant" ? (
+            <JobAplicant />
+          ) : (
+            <Navigate to={"/dashboard/jobs"} />
+          )
+        }
+      />
+      <Route path="jobs" element={<Jobs />} />
+      <Route path="jobsByRecruiter" element={<MyCreatedJobs />} />
+
+      <Route
+        path="createJob"
+        element={
+          user.type === "recruiter" ? (
+            <CreateJob />
+          ) : (
+            <Navigate to={"/dashboard/jobs"} />
+          )
+        }
+      />
       {/*  //admin */}
       <Route path="createRecruiter" element={<CreateRecruiter />} />
 
       {/* user */}
-      <Route path="/user" element={<UserPage />} />
+      <Route
+        path="user"
+        element={user.type === "postulant" ? <UserPage /> : <Navigate to="./jobs" />}
+      />
 
-      <Route path="/" element={<Navigate to={"home"}/>} />
+      <Route
+        path="/"
+        element={
+          <Navigate to={user.type === "postulant" ? "./user" : "./jobs"} />
+        }
+      />
+    
     </Routes>
   );
 }

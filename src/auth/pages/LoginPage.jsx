@@ -92,7 +92,7 @@ export const LoginPage = () => {
           </Grid> */}
 
           <Grid container item spacing={1}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} >
               <Button
                 type="submit"
                 disabled={isAuthenticating}
@@ -104,14 +104,14 @@ export const LoginPage = () => {
             </Grid>
 
             {/*  googleAuthComponent */}
-            <Grid item xs={12} sm={6}>
+            {/* <Grid item xs={12} >
               <GoogleSigIn />
-            </Grid>
+            </Grid> */}
           </Grid>
         </Grid>
       </form>
       <Grid container direction="row" justifyContent="end" sx={{ mt: 1 }}>
-        <Link color="inherit" component={RouterLink} to="/auth/register">
+        <Link color="inherit" component={RouterLink} to="/register">
           Crear cuenta
         </Link>
       </Grid>

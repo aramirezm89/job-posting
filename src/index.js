@@ -1,22 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './styles.css';
-import reportWebVitals from './reportWebVitals';
-import { JobPostingApp } from './JobPostingApp';
-import { AppTheme } from './theme';
-import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { HashRouter } from 'react-router-dom';
+import { JobPostingApp } from './JobPostingApp';
+import reportWebVitals from './reportWebVitals';
 import { store } from './store/store';
+import './styles.css';
+import { AppTheme } from './theme';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
+      <HashRouter>
         <AppTheme>
           <JobPostingApp />
         </AppTheme>
-      </BrowserRouter>
+      </HashRouter>
     </Provider>
   </React.StrictMode>
 );

@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import jobPostingAPi from "../api/jobPostingApi";
+import { alertError } from "../helpers/alertHandler";
 import {
   clearErrorMessage,
   onCheking,
@@ -42,13 +43,11 @@ export const useAuthStore = () => {
         "/postulant/login",
         credenciales
       );
-
-      const lastPath = localStorage.getItem("lastPath") || "/";
       localStorage.setItem("postulantToken", data.token);
       dispatch(onLogin(data.user));
-      navigate(lastPath, { replace: true });
+      navigate("/dashboard/user", { replace: true });
     } catch (error) {
-      console.log(error);
+      alertError('Error revise sus credenciales de usuario')
       dispatch(onLogout());
     }
   };
@@ -59,10 +58,10 @@ export const useAuthStore = () => {
       if (!token) return dispatch(onLogout());
 
       dispatch(onCheking());
-      const lastPath = localStorage.getItem("lastPath") || "/";
+  
       const { data } = await jobPostingAPi.get("/renew/postulant");
       console.log(data);
-      navigate(lastPath, { replace: true });
+      navigate("dashboard/user", { replace: true });
       dispatch(onLogin(data.user));
 
     } catch (error) {
@@ -74,6 +73,7 @@ export const useAuthStore = () => {
 
   //utilizada en AppRouter
   const checkAuthToken = async () => {
+    
     const token = localStorage.getItem("token");
     if (!token) return dispatch(onLogout());
 
@@ -101,6 +101,7 @@ export const useAuthStore = () => {
       dispatch(onLogout());
       localStorage.removeItem("token");
       localStorage.removeItem("postulantToken");
+      localStorage.removeItem("lastPath");
     } catch (error) {}
   };
 

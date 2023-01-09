@@ -16,12 +16,18 @@ code {
   
    text-decoration: none;
    margin-left: 8px;
-   color: #BB2333;
+   color: white;
+   padding: 5px 8px;
+   border-radius: 5px;
+   background: #BB2333;
+   box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+   
 }
 
-/* .googleButton{
-  width: 150px ;
-  text-align: center;
+a[class='linkButton']:hover{
+   background:  #9c1d2a
+  
+}
 
-  justify-content: center;
-} */
+
+

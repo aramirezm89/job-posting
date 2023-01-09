@@ -1,8 +1,9 @@
-import { Person } from "@mui/icons-material";
+import { Logout, Person } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../hooks";
 
 export default function MenuButtonOptions() {
@@ -10,13 +11,19 @@ export default function MenuButtonOptions() {
   const { startLogoutGoogle } = useAuthStore();
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const navigate = useNavigate();
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const redirectLogin = () =>{
+    navigate('/login')
+  }
 
   const onLogout = () => {
     startLogoutGoogle();
@@ -49,9 +56,29 @@ export default function MenuButtonOptions() {
           horizontal: "left",
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={onLogout}>Logout</MenuItem>
+        <MenuItem
+          onClick={redirectLogin}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "120px",
+          }}
+        >
+          <Person />
+          Login
+        </MenuItem>
+
+        <MenuItem
+          onClick={onLogout}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "120px",
+          }}
+        >
+          <Logout/>
+          Logout
+        </MenuItem>
       </Menu>
     </div>
   );
