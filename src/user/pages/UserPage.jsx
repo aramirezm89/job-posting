@@ -17,6 +17,7 @@ export const UserPage = () => {
         justifyContent="center"
         alignItems="center"
       >
+        
         <Grid item xs={12} textAlign="center" sx={{ mb: { xs: 2 } }}>
           <Typography
             className="animate__animated
