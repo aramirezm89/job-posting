@@ -1,6 +1,9 @@
 import { Grid, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export const AuthLayout = ({ children }) => {
+
+  const navigate = useNavigate();
   return (
     <>
       <Grid
@@ -14,9 +17,10 @@ export const AuthLayout = ({ children }) => {
         <Grid item>
            <Typography
                 variant="h2"
-                 sx={{mb:5,color:'white'}}
+                 sx={{mb:5,color:'white',cursor:'pointer'}}
                 className="animate__animated
                 animate__lightSpeedInLeft"
+                onClick={() => navigate('/home')}
               >
                 VARIACODE
               </Typography>
@@ -31,6 +35,7 @@ export const AuthLayout = ({ children }) => {
             padding: 3,
             borderRadius: 2,
             width: { md: 500 },
+            
           }}
         >
           {children}

@@ -1,9 +1,21 @@
 import { Divider, Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { JobPostingLayout } from "../layout/JobPostingLayout";
 import foto from "../../assets/illustration-concept-abstrait-equipe-dev.webp";
+import { getJobs, getRecentJobs } from "../../api/apiFunctions";
+import { JobCard } from "../components";
 export const HomePage = () => {
+
+  const [jobs,setJobs] = useState([]);
+
+  useEffect(() => {
+    getRecentJobs().then(({ data }) => {
+      console.log(data);
+      setJobs(data.registros);
+    });
+  }, []);
+  
   return (
     <>
       <JobPostingLayout>
@@ -13,7 +25,7 @@ export const HomePage = () => {
           justifyContent="center"
           alignItems="start"
           sx={{ minHeight: "85vh", width: "90vw" }}
-          gap={2}
+          gap={5}
         >
           <Grid
             container
@@ -103,6 +115,26 @@ export const HomePage = () => {
           <Grid item xs={12} textAlign="center">
               <Typography variant="h4">Últimas ofertas de empleo</Typography>
           </Grid>
+
+
+          {/* TODO: JOBCARD con ultimos empleos creados */}
+
+           <Grid
+            item
+            display="flex"
+            sx={{flexWrap:'wrap',backgroundColor:'primary.main',padding:5}}
+            justifyContent="space-evenly"
+            alignItems="start"
+            gap={3}
+            mb={5}
+            xs={12}
+          >
+            {jobs.map((job) => (
+              <JobCard
+               key={job.id} job={job} />
+            ))}
+          </Grid>
+       
         </Grid>
       </JobPostingLayout>
     </>

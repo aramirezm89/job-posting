@@ -150,7 +150,7 @@ export const RegisterPage = () => {
         </form>
         <Grid container direction="row" justifyContent="end" sx={{ mt: 1 }}>
           <Typography sx={{ mr: 1 }}>¿Ya tienes cuenta?</Typography>
-          <Link color="inherit" component={RouterLink} to="/auth/login">
+          <Link color="inherit" component={RouterLink} to="/login">
             Login
           </Link>
         </Grid>

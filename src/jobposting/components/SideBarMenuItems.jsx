@@ -12,7 +12,7 @@ export const SideBarMenuItems= ({menu}) => {
    return (
      <List sx={{ pt: 0 }}>
        {menu.map((item, index) => (
-         <ListItem key={item.label} disablePadding>
+         <ListItem key={item.label} disablePadding sx={{padding:'4px'}}>
            <ListItemButton
              selected={index === selectedItem}
              onClick={() => handleSelectItem(index)}

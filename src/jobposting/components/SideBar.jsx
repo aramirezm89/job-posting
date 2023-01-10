@@ -54,6 +54,7 @@ export const Sidebar = ({ drawerWith = 240, openDrawer, handdleDrawer }) => {
         sx={{
           display: { xs: "block" },
           "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWith },
+
         }}
       >
       

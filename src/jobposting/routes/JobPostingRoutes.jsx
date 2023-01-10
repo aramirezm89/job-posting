@@ -13,52 +13,36 @@ export const JobPostingRoutes = () => {
   const {user} = useAuthStore();
 
   return (
-
     <Routes>
-      
-      <Route path="jobPosting" element={<JobPostingPage />} />
-      <Route path="linkedin" element={<LinkedinPage />} />
+      {user.type === "postulant" ? (
+        <>
+          <Route path="jobApplicant/:id" element={<JobAplicant />} />
+          <Route path="jobs" element={<Jobs />} />
 
-      <Route
-        path="jobApplicant/:id"
-        element={
-          user.type === "postulant" ? (
-            <JobAplicant />
-          ) : (
-            <Navigate to={"/dashboard/jobs"} />
-          )
-        }
-      />
-      <Route path="jobs" element={<Jobs />}  />
-      <Route path="jobsByRecruiter" element={<MyCreatedJobs />} />
+          {/* user */}
+          <Route path="user" element={<UserPage />} />
 
-      <Route
-        path="createJob"
-        element={
-          user.type === "recruiter" ? (
-            <CreateJob />
-          ) : (
-            <Navigate to={"/dashboard/jobs"} />
-          )
-        }
-      />
-      {/*  //admin */}
-      <Route path="createRecruiter" element={<CreateRecruiter />} />
-
-      {/* user */}
-      <Route
-        path="user"
-        element={
-          user.type === "postulant" ? <UserPage /> : <Navigate to="./jobs" />
-        }
-      />
-
-      <Route
-        path="/*"
-        element={
-          <Navigate to={user.type === "postulant" ? "./user" : "./jobs"} />
-        }
-      />
+          <Route path="/*" element={<Navigate to={"./user"} />} />
+        </>
+      ) : (
+        <>
+          <Route path="jobPosting" element={<JobPostingPage />} />
+          <Route path="linkedin" element={<LinkedinPage />} /> */
+          <Route path="jobs" element={<Jobs />} />
+          <Route path="jobsByRecruiter" element={<MyCreatedJobs />} />
+          <Route path="createJob" element={<CreateJob />} />
+          {/*  //admin */}
+          <Route path="createRecruiter" element={<CreateRecruiter />} />
+          <Route
+            path="/*"
+            element={
+              <Navigate to={"./jobs"} />
+            }
+          />
+        </>
+      )}
+    
+     
     </Routes>
   );
 }
