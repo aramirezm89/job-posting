@@ -25,7 +25,7 @@ export const UserPage = () => {
             variant="h4"
             sx={{ mb: 2 }}
           >
-            Datos de usuario prueba
+            Datos de usuario 
           </Typography>
           <Divider />
         </Grid>

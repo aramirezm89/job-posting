@@ -16,6 +16,7 @@ export const useAuthStore = () => {
   const navigate = useNavigate();
 
   const startLoginGoogle = async (googleResponse) => {
+       localStorage.removeItem("lastPath");
     try {
       dispatch(onCheking());
 
@@ -37,6 +38,7 @@ export const useAuthStore = () => {
   };
 
   const startLoginUser = async (credenciales) => {
+       localStorage.removeItem("lastPath");
     try {
       dispatch(onCheking());
       const { data } = await jobPostingAPi.post(
@@ -97,12 +99,17 @@ export const useAuthStore = () => {
   };
 
   const startLogoutGoogle = () => {
+     
     try {
+    
       dispatch(onLogout());
+        localStorage.removeItem("lastPath");
       localStorage.removeItem("token");
       localStorage.removeItem("postulantToken");
-      localStorage.removeItem("lastPath");
-    } catch (error) {}
+     
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return {

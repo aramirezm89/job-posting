@@ -13,9 +13,9 @@ export const JobPostingRoutes = () => {
   const {user} = useAuthStore();
 
   return (
-    <Routes>
-      {/*   <Route path="home" element={<HomePage />} /> */}
 
+    <Routes>
+      
       <Route path="jobPosting" element={<JobPostingPage />} />
       <Route path="linkedin" element={<LinkedinPage />} />
 
@@ -29,7 +29,7 @@ export const JobPostingRoutes = () => {
           )
         }
       />
-      <Route path="jobs" element={<Jobs />} />
+      <Route path="jobs" element={<Jobs />}  />
       <Route path="jobsByRecruiter" element={<MyCreatedJobs />} />
 
       <Route
@@ -48,16 +48,17 @@ export const JobPostingRoutes = () => {
       {/* user */}
       <Route
         path="user"
-        element={user.type === "postulant" ? <UserPage /> : <Navigate to="./jobs" />}
+        element={
+          user.type === "postulant" ? <UserPage /> : <Navigate to="./jobs" />
+        }
       />
 
       <Route
-        path="/"
+        path="/*"
         element={
           <Navigate to={user.type === "postulant" ? "./user" : "./jobs"} />
         }
       />
-    
     </Routes>
   );
 }
