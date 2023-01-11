@@ -40,7 +40,7 @@ export const useAuthStore = () => {
   const startLoginUser = async (credenciales) => {
      /*   localStorage.removeItem("lastPath"); */
     try {
-
+      
       dispatch(onCheking());
         const lastPath = localStorage.getItem("lastPath") || "/dashboard/user";
       const { data } = await jobPostingAPi.post(
@@ -65,6 +65,7 @@ export const useAuthStore = () => {
       dispatch(onCheking());
   
       const { data } = await jobPostingAPi.get("/renew/postulant");
+     
       navigate(lastPath, { replace: true });
       dispatch(onLogin(data.user));
 

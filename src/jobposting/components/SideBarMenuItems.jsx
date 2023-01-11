@@ -12,14 +12,14 @@ export const SideBarMenuItems= ({menu}) => {
    return (
      <List sx={{ pt: 0 }}>
        {menu.map((item, index) => (
-         <ListItem key={item.label} disablePadding sx={{padding:'4px'}}>
+         <ListItem key={item.label} disablePadding sx={{ padding: "4px" }}>
            <ListItemButton
              selected={index === selectedItem}
              onClick={() => handleSelectItem(index)}
            >
              <ListItemIcon>{item.icon}</ListItemIcon>
              <NavLink
-               style={{ textDecoration: "none", color: "grey" }}
+               style={{ textDecoration: "none", color: "#141414" }}
                to={item.path}
              >
                {item.label}

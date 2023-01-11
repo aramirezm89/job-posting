@@ -62,14 +62,37 @@ export const HomePage = () => {
               </Typography>
             </Grid>
           </Grid>
+          <Grid item xs={12} textAlign="center">
+            <Typography variant="h4">Últimas ofertas de empleo</Typography>
+          </Grid>
 
+          {/* TODO: JOBCARD con ultimos empleos creados */}
+
+          <Grid
+            item
+            display="flex"
+            sx={{
+              flexWrap: "wrap",
+              backgroundColor: "primary.main",
+              padding: 5,
+            }}
+            justifyContent="space-evenly"
+            alignItems="start"
+            gap={3}
+            mb={5}
+            xs={12}
+          >
+            {jobs.map((job) => (
+              <JobCard key={job.id} job={job} />
+            ))}
+          </Grid>
           <Grid
             container
             sx={{
-              display: {xs:'grid', md: "flex" },
+              display: { xs: "grid", md: "flex" },
               justifyContent: "center",
               alignItems: "center",
-              height: {xs:"500px",md:'350px'},
+              height: { xs: "500px", md: "350px" },
               width: "90vw",
               backgroundColor: "primary.main",
               color: "white",
@@ -80,7 +103,6 @@ export const HomePage = () => {
               xs={12}
               md={6}
               textAlign="center"
-            
               sx={{ display: { xs: "grid" } }}
             >
               <img src={foto} alt="imagen" />
@@ -109,32 +131,7 @@ export const HomePage = () => {
                 business operations success anytime, anywhere.
               </Typography>
             </Grid>
-
           </Grid>
-
-          <Grid item xs={12} textAlign="center">
-              <Typography variant="h4">Últimas ofertas de empleo</Typography>
-          </Grid>
-
-
-          {/* TODO: JOBCARD con ultimos empleos creados */}
-
-           <Grid
-            item
-            display="flex"
-            sx={{flexWrap:'wrap',backgroundColor:'primary.main',padding:5}}
-            justifyContent="space-evenly"
-            alignItems="start"
-            gap={3}
-            mb={5}
-            xs={12}
-          >
-            {jobs.map((job) => (
-              <JobCard
-               key={job.id} job={job} />
-            ))}
-          </Grid>
-       
         </Grid>
       </JobPostingLayout>
     </>

@@ -48,14 +48,17 @@ export const Sidebar = ({ drawerWith = 240, openDrawer, handdleDrawer }) => {
     <Box component="nav" sx={{ flexShrink: { sm: 0 } }}>
       <Drawer
         open={openDrawer}
-        onClose={(e) =>handdleDrawer(e)}
+        onClose={(e) => handdleDrawer(e)}
         sx={{
           display: { xs: "block" },
-          "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWith },
-
+          "& .MuiDrawer-paper": {
+            boxSizing: "border-box",
+            width: drawerWith,
+            background: " linear-gradient(65deg, #263238, white)",
+          
+          },
         }}
       >
-      
         <Divider />
 
         {user.type === "postulant" ? (
@@ -78,7 +81,6 @@ export const Sidebar = ({ drawerWith = 240, openDrawer, handdleDrawer }) => {
               <Typography variant="h6" noWrap component="div">
                 Empleos
               </Typography>
-             
             </Box>
 
             <Divider />

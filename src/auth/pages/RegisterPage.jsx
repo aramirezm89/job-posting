@@ -35,6 +35,11 @@ const validationSchema = yup.object({
     .string("Ingresa tú numero de telefonico")
     .required("Campo requerido")
     .matches(/^\+5[0-9]\d{9}$/, "Número telefonico no valido"),
+  password: yup
+    .string()
+    .min(6, "La contraseña debe tener por lo menos 6 caracteres")
+    .max(20, "La contraseña debe tener maximo 20 caracteres")
+    .required("Campo Obligatorio"),
 });
 export const RegisterPage = () => {
   const onSubmitForm = async (values, actions) => {
@@ -52,6 +57,7 @@ export const RegisterPage = () => {
   const formik = useFormik({
     initialValues: {
       name: "",
+      password:"",
       lastname: "",
       email: "",
       phone: "",
@@ -87,6 +93,21 @@ export const RegisterPage = () => {
                 onChange={handleChange}
                 error={touched.name && Boolean(errors.name)}
                 helperText={touched.name && errors.name}
+              />
+            </Grid>
+
+            {/* contraseña */}
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                id="password"
+                name="password"
+                label="Password"
+                type="password"
+                value={values.password}
+                onChange={handleChange}
+                error={touched.password && Boolean(errors.password)}
+                helperText={touched.password && errors.password}
               />
             </Grid>
 

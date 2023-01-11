@@ -17,7 +17,6 @@ export const UserPage = () => {
         justifyContent="center"
         alignItems="center"
       >
-        
         <Grid item xs={12} textAlign="center" sx={{ mb: { xs: 2 } }}>
           <Typography
             className="animate__animated
@@ -25,7 +24,7 @@ export const UserPage = () => {
             variant="h4"
             sx={{ mb: 2 }}
           >
-            Datos de usuario 
+            Datos de usuario
           </Typography>
           <Divider />
         </Grid>
@@ -36,15 +35,25 @@ export const UserPage = () => {
             alt="foto"
           />
         </Grid>
-        <Grid item md={6} xs={12} textAlign="center">
+        <Grid item md={6} xs={12} textAlign="start">
           <Card sx={{ width: "100%" }}>
-            <CardContent>
+            <CardContent  >
               <Box paddingBottom={2}>
-                <Typography gutterBottom>Nombre : {user.postulant}</Typography>
+                <Typography
+                  gutterBottom
+                 
+                >
+                  Nombre : <span>{user.postulant}</span>
+                </Typography>
                 <Divider />
               </Box>
               <Box paddingBottom={2}>
-                <Typography gutterBottom>Email : {user.email}</Typography>
+                <Typography
+                  gutterBottom
+                 
+                >
+                  Email :<span> {user.email}</span>
+                </Typography>
                 <Divider />
               </Box>
 
