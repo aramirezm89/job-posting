@@ -2,6 +2,7 @@ import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { CreateRecruiter } from '../../admin/pages';
 import { useAuthStore } from '../../hooks';
+import { MyPostulations } from '../../user/pages/MyPostulations';
 import { UserPage } from '../../user/pages/UserPage';
 import { CreateJob, JobAplicant, JobPostingPage, Jobs, LinkedinPage,MyCreatedJobs } from '../pages';
 
@@ -13,6 +14,7 @@ export const JobPostingRoutes = () => {
   const {user} = useAuthStore();
 
   return (
+  
     <Routes>
       {user.type === "postulant" ? (
         <>
@@ -21,8 +23,9 @@ export const JobPostingRoutes = () => {
 
           {/* user */}
           <Route path="user" element={<UserPage />} />
-
-          <Route path="/*" element={<Navigate to={"./user"} />} />
+          <Route path="postulations" element={<MyPostulations />} />
+          <Route path="/" element={<Navigate to={"./user"} />} />
+          <Route path="*" element={<Navigate to="./user" />} />
         </>
       ) : (
         <>
@@ -33,16 +36,10 @@ export const JobPostingRoutes = () => {
           <Route path="createJob" element={<CreateJob />} />
           {/*  //admin */}
           <Route path="createRecruiter" element={<CreateRecruiter />} />
-          <Route
-            path="/*"
-            element={
-              <Navigate to={"./jobs"} />
-            }
-          />
+          <Route path="/" element={<Navigate to="./jobs" />} />
+          <Route path="*" element={<Navigate to="./jobs" />} />
         </>
       )}
-    
-     
     </Routes>
   );
 }

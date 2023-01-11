@@ -38,16 +38,18 @@ export const useAuthStore = () => {
   };
 
   const startLoginUser = async (credenciales) => {
-       localStorage.removeItem("lastPath");
+     /*   localStorage.removeItem("lastPath"); */
     try {
+
       dispatch(onCheking());
+        const lastPath = localStorage.getItem("lastPath") || "/dashboard/user";
       const { data } = await jobPostingAPi.post(
         "/postulant/login",
         credenciales
       );
       localStorage.setItem("postulantToken", data.token);
       dispatch(onLogin(data.user));
-      navigate("/dashboard/user", { replace: true });
+      navigate(lastPath, { replace: true });
     } catch (error) {
       alertError('Error revise sus credenciales de usuario')
       dispatch(onLogout());
@@ -56,14 +58,14 @@ export const useAuthStore = () => {
 
   const checkAuthPostulantLogin = async () => {
     try {
+      const lastPath = localStorage.getItem('lastPath') || '/dashboard/user';
       const token = localStorage.getItem("postulantToken");
       if (!token) return dispatch(onLogout());
 
       dispatch(onCheking());
   
       const { data } = await jobPostingAPi.get("/renew/postulant");
-      console.log(data);
-      navigate("dashboard/user", { replace: true });
+      navigate(lastPath, { replace: true });
       dispatch(onLogin(data.user));
 
     } catch (error) {

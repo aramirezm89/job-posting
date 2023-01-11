@@ -1,4 +1,5 @@
 import {
+  Button,
   Card,
   CardActions,
   CardContent,
@@ -11,7 +12,14 @@ import { Link } from "react-router-dom";
 export const JobCard = ({ job = {} }) => {
 
   
-  const { position, description, location, recruiter, modality } = job;
+  const {
+    position,
+    description,
+    location,
+    recruiter,
+    modality,
+    postulationid,
+  } = job;
 
 
 
@@ -35,17 +43,29 @@ export const JobCard = ({ job = {} }) => {
           <p>{description}</p>
 
           <p>{location}</p>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            Reclutador: {recruiter}
-          </Typography>
+          {recruiter && (
+            <Typography
+              sx={{ fontSize: 14 }}
+              color="text.secondary"
+              gutterBottom
+            >
+              Reclutador: {recruiter}
+            </Typography>
+          )}
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
             Modalidad: {modality}
           </Typography>
         </CardContent>
         <CardActions>
-          <Link className="linkButton" to={`/dashboard/jobApplicant/${job.id}`}>
+         {
+          !postulationid 
+          ?
+           <Link className="linkButton" to={`/dashboard/jobApplicant/${job.id}`}>
             POSTULAR
           </Link>
+          :
+          <Button variant="contained">Eliminar</Button>
+         }
         </CardActions>
       </Card>
     </>

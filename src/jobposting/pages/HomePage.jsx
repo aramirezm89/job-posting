@@ -1,10 +1,9 @@
-import { Divider, Grid, Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import { Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { JobPostingLayout } from "../layout/JobPostingLayout";
+import { getRecentJobs } from "../../api/apiFunctions";
 import foto from "../../assets/illustration-concept-abstrait-equipe-dev.webp";
-import { getJobs, getRecentJobs } from "../../api/apiFunctions";
 import { JobCard } from "../components";
+import { JobPostingLayout } from "../layout/JobPostingLayout";
 export const HomePage = () => {
 
   const [jobs,setJobs] = useState([]);
@@ -70,7 +69,7 @@ export const HomePage = () => {
               display: {xs:'grid', md: "flex" },
               justifyContent: "center",
               alignItems: "center",
-              height: {xs:"500px",md:'300px'},
+              height: {xs:"500px",md:'350px'},
               width: "90vw",
               backgroundColor: "primary.main",
               color: "white",
@@ -81,6 +80,7 @@ export const HomePage = () => {
               xs={12}
               md={6}
               textAlign="center"
+            
               sx={{ display: { xs: "grid" } }}
             >
               <img src={foto} alt="imagen" />

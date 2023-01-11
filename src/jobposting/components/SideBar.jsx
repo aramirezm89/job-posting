@@ -1,11 +1,8 @@
-import { Add, Home, LinkedIn, List, Person } from "@mui/icons-material";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import { Add, List, Person } from "@mui/icons-material";
 import {
   Box,
   Divider,
-  Drawer,
-  IconButton, Toolbar,
-  Typography
+  Drawer, Typography
 } from "@mui/material";
 import { useAuthStore } from "../../hooks";
 import { SideBarMenuItems } from "./SideBarMenuItems";
@@ -38,6 +35,7 @@ const adminMenu = [
 const userMenu = [
   { label: "Mi cuenta", icon: <Person />, path: "/dashboard/user" },
   { label: "Tablero de empleos", icon: <List />, path: "/dashboard/jobs" },
+  { label: "Mis Postulaciones", icon: <List />, path: "/dashboard/postulations" },
 ];
 
 

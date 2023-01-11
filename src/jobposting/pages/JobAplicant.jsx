@@ -21,48 +21,35 @@ import { JobPostingLayout } from "../layout/JobPostingLayout";
 import jobPostingAPi from "../../api/jobPostingApi";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
+import { useAuthStore } from "../../hooks";
 
 const validationSchema = yup.object({
-  lastLaboralExperience: yup
-    .string("Inresa tú ultima experiencia laboral")
-    .max(300, "Máximo 300 caracteres")
-    .required("Campo requerido"),
+
   curriculum: yup.mixed().required("Curriculum requerido"),
 });
 
 export const JobAplicant = () => {
 
   
-  const [postulants, setPostulants] = useState([]);
+
+  const {user} = useAuthStore();
   //parametro id url
 
   const { id: jobId } = useParams();
 
-  useEffect(() => {
-    getPostulants();
-  }, []);
 
-  const getPostulants = async () => {
-    try {
-      const { data } = await jobPostingAPi.get("/postulant");
-      setPostulants(data.registros);
-      console.log(data.registros);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const onSubmitForm = async (values, actions) => {
     const formData = new FormData();
-    const { lastLaboralExperience, curriculum, postulant } = values;
+    const {  curriculum } = values;
 
     formData.append("jobId", jobId);
-    formData.append("postulantId", postulant);
-    formData.append("experience", lastLaboralExperience);
+    formData.append("postulantId", user.id);
     formData.append("curriculum", curriculum);
 
     try {
       const res = await jobPostingAPi.post("/postulation", formData);
+      console.log(res);
       actions.resetForm();
     } catch (error) {
       console.log(error);
@@ -74,8 +61,6 @@ export const JobAplicant = () => {
 
   const formik = useFormik({
     initialValues: {
-      lastLaboralExperience: "",
-      postulant: "",
       curriculum: null,
     },
     validationSchema: validationSchema,
@@ -132,7 +117,7 @@ export const JobAplicant = () => {
               className="animate__animated
                 animate__lightSpeedInLeft"
             >
-              Formulario de solicitud de trabajo
+              Adjunta tú curriculum
             </Typography>
             <hr />
           </Grid>
@@ -145,46 +130,8 @@ export const JobAplicant = () => {
                   encType="multipart/form-data"
                   style={{ width: "40vw", display: "grid", gap: 20 }}
                 >
-                  <TextField
-                    fullWidth
-                    multiline
-                    id="lastLaboralExperience"
-                    name="lastLaboralExperience"
-                    label="Última experiencia laboral"
-                    value={values.lastLaboralExperience}
-                    onChange={handleChange}
-                    error={
-                      touched.lastLaboralExperience &&
-                      Boolean(errors.lastLaboralExperience)
-                    }
-                    helperText={
-                      touched.lastLaboralExperience &&
-                      errors.lastLaboralExperience
-                    }
-                  />
-
-                  <FormControl
-                    error={touched.postulant && Boolean(errors.postulant)}
-                  >
-                    <InputLabel id="postulant">Postulantes</InputLabel>
-                    <Select
-                      labelId="postulant"
-                      name="postulant"
-                      label="Lugar de Trabajo"
-                      value={values.postulant}
-                      onChange={handleChange}
-                    >
-                      {postulants.map((postulant) => (
-                        <MenuItem key={postulant.id} value={postulant.id}>
-                          {postulant.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                    <FormHelperText>
-                      {touched.postulant && errors.postulant}
-                    </FormHelperText>
-                  </FormControl>
-
+                
+                
                   <Grid item>
                     <input
                       id="curriculum"
@@ -194,7 +141,7 @@ export const JobAplicant = () => {
                       onChange={handleFileInput}
                       style={{ marginBottom: "12px" }}
                     />
-                    {touched.phone && Boolean(errors.lastLaboralExperience) && (
+                    {touched.curriculum && Boolean(errors.curriculum) && (
                       <Box>
                         <small
                           style={{

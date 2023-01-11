@@ -1,5 +1,5 @@
 import { MenuOutlined } from "@mui/icons-material";
-import { AppBar, IconButton, Toolbar } from "@mui/material";
+import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useMemo } from "react";
 import logo from "../../assets/variacode_ch_fn_rgb.webp";
@@ -8,7 +8,7 @@ import MenuButtonOptions from "./MenuButtonOptions";
 
 export const NavBar = ({ drawerWith = 240, handdleDrawer }) => {
 
-  const {status} = useAuthStore();
+  const {status, user} = useAuthStore();
   
   const state = useMemo(() => handdleDrawer, [handdleDrawer]);
   return (
@@ -36,9 +36,11 @@ export const NavBar = ({ drawerWith = 240, handdleDrawer }) => {
           <img alt="variacode" src={logo} style={{ width: "5rem" }} />
         </Box>
         <Box>
-          {/*   <IconButton style={{ color: "white" }} onClick={onLogout}>
-            <LogoutOutlined />
-          </IconButton> */}
+           <Typography variant="p">
+              {user.postulant}
+           </Typography>
+        </Box>
+        <Box>
           <MenuButtonOptions />
         </Box>
       </Toolbar>
