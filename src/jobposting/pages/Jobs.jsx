@@ -11,7 +11,6 @@ export const Jobs = () => {
 
   useEffect(() => {
   getJobs().then(({data}) => {
-    console.log(data)
     setJobs(data.registros)
   })
   }, [])

@@ -70,10 +70,11 @@ export const HomePage = () => {
 
           <Grid
             item
-            display="flex"
+            display="grid"
             sx={{
-              flexWrap: "wrap",
-              backgroundColor: "primary.main",
+              flexWrap: "wrap-reverse",
+              backgroundColor:" linear-gradient(40deg, #7e22ce, #4f46e5)",
+            
               padding: 5,
             }}
             justifyContent="space-evenly"

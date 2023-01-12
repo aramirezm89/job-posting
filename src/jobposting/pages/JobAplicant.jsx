@@ -22,26 +22,21 @@ import jobPostingAPi from "../../api/jobPostingApi";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
 import { useAuthStore } from "../../hooks";
+import { alertError, alertSuccess } from "../../helpers/alertHandler";
 
 const validationSchema = yup.object({
-
   curriculum: yup.mixed().required("Curriculum requerido"),
 });
 
 export const JobAplicant = () => {
-
-  
-
-  const {user} = useAuthStore();
+  const { user } = useAuthStore();
   //parametro id url
 
   const { id: jobId } = useParams();
 
-
-
   const onSubmitForm = async (values, actions) => {
     const formData = new FormData();
-    const {  curriculum } = values;
+    const { curriculum } = values;
 
     formData.append("jobId", jobId);
     formData.append("postulantId", user.id);
@@ -50,12 +45,12 @@ export const JobAplicant = () => {
     try {
       const res = await jobPostingAPi.post("/postulation", formData);
       console.log(res);
+      alertSuccess("Acabas de postular al empleo correctamente");
       actions.resetForm();
     } catch (error) {
       console.log(error);
       const msg = error.response.data.errors[0].msg;
-
-      Swal.fire("Error", msg, "error");
+      alertError("Error al realizar la postulación");
     }
   };
 
@@ -130,8 +125,6 @@ export const JobAplicant = () => {
                   encType="multipart/form-data"
                   style={{ width: "40vw", display: "grid", gap: 20 }}
                 >
-                
-                
                   <Grid item>
                     <input
                       id="curriculum"

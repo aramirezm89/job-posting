@@ -1,23 +1,31 @@
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Button,
+  FilledInput,
+  FormControl,
+  FormHelperText,
   Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
   Link,
+  OutlinedInput,
   TextField,
   Typography
 } from "@mui/material";
 import { useFormik } from "formik";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import * as yup from "yup";
 import { useAuthStore } from "../../hooks/useAuthStore";
-import { GoogleSigIn } from "../components/GoogleSigIn";
+
 
 import { AuthLayout } from "../layout/AuthLayout";
 
 export const LoginPage = () => {
  
   const { status, startLoginUser } = useAuthStore();
-
+  const [showPassword, setShowPassword] = useState(false);
   const isAuthenticating = useMemo(() => status === 'checking',[status])
 
   const validationSchema = yup.object({
@@ -31,6 +39,11 @@ export const LoginPage = () => {
       .max(20, "La contraseña debe tener maximo 20 caracteres")
       .required("Campo Obligatorio"),
   });
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   const onSubmit = (values, actions) => {
   
@@ -77,21 +90,41 @@ export const LoginPage = () => {
           </Grid>
           {/* contraseña */}
           <Grid item xs={12}>
-            <TextField
-              fullWidth
-              id="password"
-              name="password"
-              label="Password"
-              type="password"
-              value={values.password}
-              onChange={handleChange}
+    
+            <FormControl
+              variant="outlined"
               error={touched.password && Boolean(errors.password)}
-              helperText={touched.password && errors.password}
-            />
+              fullWidth
+            >
+              <InputLabel htmlFor="password">Password</InputLabel>
+              <OutlinedInput
+                id="password"
+                name="password"
+                value={values.password}
+                type={showPassword ? "text" : "password"}
+                onChange={handleChange}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="password"
+              />
+              <FormHelperText>
+                {touched.password && errors.password}
+              </FormHelperText>
+            </FormControl>
           </Grid>
 
           <Grid container item spacing={1}>
-            <Grid item xs={12} >
+            <Grid item xs={12}>
               <Button
                 type="submit"
                 disabled={isAuthenticating}
@@ -109,9 +142,12 @@ export const LoginPage = () => {
           </Grid>
         </Grid>
       </form>
-      <Grid container direction="row" justifyContent="end" sx={{ mt: 1 }}>
-        <Link color="inherit" component={RouterLink} to="/register">
+      <Grid container direction="row" justifyContent="end" sx={{ mt: 1}}>
+        <Link mr={2} color="inherit" component={RouterLink} to="/register">
           Crear cuenta
+        </Link>
+        <Link  color="inherit" component={RouterLink} to="/recoverPassword">
+          ¿Olvidaste tu contraseña?
         </Link>
       </Grid>
     </AuthLayout>

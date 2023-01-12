@@ -36,8 +36,8 @@ export const UserPage = () => {
           />
         </Grid>
         <Grid item md={6} xs={12} textAlign="start">
-          <Card sx={{ width: "100%" }}>
-            <CardContent  >
+          <Card sx={{ width:{md:'60%',xs:'100%'} }}>
+            <CardContent sx={{display:'grid',justifyContent:'center'}} >
               <Box paddingBottom={2}>
                 <Typography
                   gutterBottom

@@ -12,19 +12,22 @@ export const AuthLayout = ({ children }) => {
         direction="column"
         justifyContent="center"
         alignItems="center"
-        sx={{ minHeight: "100vh", backgroundColor: "primary.main", padding: 4 }}
+        sx={{
+          minHeight: "100vh",
+          background: "linear-gradient(40deg, #4f46e5,#9E46E5)",
+          padding: 4,
+        }}
       >
         <Grid item>
-           <Typography
-                variant="h2"
-                 sx={{mb:5,color:'white',cursor:'pointer'}}
-                className="animate__animated
+          <Typography
+            variant="h2"
+            sx={{ mb: 5, color: "white", cursor: "pointer" }}
+            className="animate__animated
                 animate__lightSpeedInLeft"
-                onClick={() => navigate('/home')}
-              >
-                VARIACODE
-              </Typography>
-            
+            onClick={() => navigate("/home")}
+          >
+            VARIACODE
+          </Typography>
         </Grid>
         <Grid
           item
@@ -34,8 +37,7 @@ export const AuthLayout = ({ children }) => {
             backgroundColor: "white",
             padding: 3,
             borderRadius: 2,
-            width: { md: 500 },
-            
+            width: { md: 500, xs: "85vw" },
           }}
         >
           {children}

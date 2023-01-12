@@ -1,10 +1,11 @@
 /* eslint-disable no-useless-escape */
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
-  Button, Grid, Link, TextField,
+  Button, FormControl, FormHelperText, Grid, IconButton, InputAdornment, InputLabel, Link, OutlinedInput, TextField,
   Typography
 } from "@mui/material";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import * as yup from "yup";
 import jobPostingAPi from "../../api/jobPostingApi";
@@ -41,7 +42,15 @@ const validationSchema = yup.object({
     .max(20, "La contraseña debe tener maximo 20 caracteres")
     .required("Campo Obligatorio"),
 });
+
 export const RegisterPage = () => {
+  const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleMouseDownPassword = (event) => {
+      event.preventDefault();
+    };
+
   const onSubmitForm = async (values, actions) => {
    
     try {
@@ -98,17 +107,36 @@ export const RegisterPage = () => {
 
             {/* contraseña */}
             <Grid item xs={12}>
-              <TextField
-                fullWidth
-                id="password"
-                name="password"
-                label="Password"
-                type="password"
-                value={values.password}
-                onChange={handleChange}
+              <FormControl
+                variant="outlined"
                 error={touched.password && Boolean(errors.password)}
-                helperText={touched.password && errors.password}
-              />
+                fullWidth
+              >
+                <InputLabel htmlFor="password">Password</InputLabel>
+                <OutlinedInput
+                  id="password"
+                  name="password"
+                  label="password"
+                  value={values.password}
+                  type={showPassword ? "text" : "password"}
+                  onChange={handleChange}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+                <FormHelperText>
+                  {touched.password && errors.password}
+                </FormHelperText>
+              </FormControl>
             </Grid>
 
             {/* lastName */}

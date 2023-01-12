@@ -54,8 +54,7 @@ export const Sidebar = ({ drawerWith = 240, openDrawer, handdleDrawer }) => {
           "& .MuiDrawer-paper": {
             boxSizing: "border-box",
             width: drawerWith,
-            background: " linear-gradient(65deg, #263238, white)",
-          
+            background: " linear-gradient(40deg, #9E46E5, #4f46e5)",
           },
         }}
       >

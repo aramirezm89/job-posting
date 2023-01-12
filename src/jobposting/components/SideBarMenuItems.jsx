@@ -17,9 +17,9 @@ export const SideBarMenuItems= ({menu}) => {
              selected={index === selectedItem}
              onClick={() => handleSelectItem(index)}
            >
-             <ListItemIcon>{item.icon}</ListItemIcon>
+             <ListItemIcon sx={{color:'white'}}>{item.icon}</ListItemIcon>
              <NavLink
-               style={{ textDecoration: "none", color: "#141414" }}
+               style={{ textDecoration: "none", color: "white" }}
                to={item.path}
              >
                {item.label}
