@@ -13,7 +13,7 @@ export const AuthRoutes = () => {
       <Route path="variacode" element={<VariacodeLogin />} />
       <Route path="register" element={<RegisterPage />} />
       <Route path="recoverPassword" element={<RecoverPassword />} />
-      <Route path="newPassword" element={<NewPassword />} />
+      <Route path="newPassword/:token" element={<NewPassword />} />
       <Route path="/" element={<Navigate to="home" />}></Route>
       <Route path="*" element={<Navigate to="home" />}></Route>
 

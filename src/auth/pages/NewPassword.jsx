@@ -13,23 +13,30 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import React, { useState } from "react";
 import { AuthLayout } from "../layout/AuthLayout";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { updatePassword } from "../../api/apiFunctions/auth";
+import { alertError, alertSuccess } from "../../helpers/alertHandler";
 
 const validationSchema = yup.object({
-  password: yup
+  pass: yup
     .string()
     .min(6, "La contraseña debe tener por lo menos 6 caracteres")
     .max(20, "La contraseña debe tener maximo 20 caracteres")
     .required("Campo Obligatorio"),
-  password2: yup.string().required("Campo Obligatorio").oneOf([yup.ref('password'),null],'Las contraseñas deben ser iguales')
+  duplicatePass: yup
+    .string()
+    .required("Campo Obligatorio")
+    .oneOf([yup.ref("pass"), null], "Las contraseñas deben ser iguales"),
 });
 export const NewPassword = () => {
 
+    const {token} = useParams();
+    const navigate = useNavigate();
       const [showPassword, setShowPassword] = useState(false);
       const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -40,14 +47,23 @@ export const NewPassword = () => {
 
 
      const onSubmit = (values, actions) => {
-       console.log(values);
+      
+        updatePassword(token,values).then(res => {
+            console.log(res);
+            if(res.status !== 200){
+                alertError('Error, no se pudo reestrablecer su contraseña');
+            }
 
-       
+            alertSuccess('Contraseña reestablecida, realice el proceso de  login de forma normal');
+            navigate('/login');
+            actions.resetForm();
+        })
+
      };
      const formik = useFormik({
        initialValues: {
-         password: "",
-         password2: "",
+         pass: "",
+         duplicatePass: "",
        },
        validationSchema: validationSchema,
        onSubmit: onSubmit,
@@ -79,17 +95,17 @@ export const NewPassword = () => {
 
           <form onSubmit={handleSubmit}>
             {/* contraseña */}
-            <Grid item xs={12} mb={2}>
+            <Grid item xs={12} mb={2} mt={2}>
               <FormControl
                 variant="outlined"
-                error={touched.password && Boolean(errors.password)}
+                error={touched.pass && Boolean(errors.pass)}
                 fullWidth
               >
                 <InputLabel htmlFor="password">Password</InputLabel>
                 <OutlinedInput
                   id="password"
-                  name="password"
-                  value={values.password}
+                  name="pass"
+                  value={values.pass}
                   type={showPassword ? "text" : "password"}
                   onChange={handleChange}
                   endAdornment={
@@ -106,9 +122,7 @@ export const NewPassword = () => {
                   }
                   label="password"
                 />
-                <FormHelperText>
-                  {touched.password && errors.password}
-                </FormHelperText>
+                <FormHelperText>{touched.pass && errors.pass}</FormHelperText>
               </FormControl>
             </Grid>
 
@@ -116,14 +130,14 @@ export const NewPassword = () => {
             <Grid item xs={12} mb={2}>
               <FormControl
                 variant="outlined"
-                error={touched.password2 && Boolean(errors.password2)}
+                error={touched.duplicatePass && Boolean(errors.duplicatePass)}
                 fullWidth
               >
-                <InputLabel htmlFor="password2">Password 2</InputLabel>
+                <InputLabel htmlFor="duplicatePass">Password 2</InputLabel>
                 <OutlinedInput
-                  id="password2"
-                  name="password2"
-                  value={values.password2}
+                  id="duplicatePass"
+                  name="duplicatePass"
+                  value={values.duplicatePass}
                   type={showPassword ? "text" : "password"}
                   onChange={handleChange}
                   endAdornment={
@@ -138,10 +152,10 @@ export const NewPassword = () => {
                       </IconButton>
                     </InputAdornment>
                   }
-                  label="password2"
+                  label="duplicatePass"
                 />
                 <FormHelperText>
-                  {touched.password2 && errors.password2}
+                  {touched.duplicatePass && errors.duplicatePass}
                 </FormHelperText>
               </FormControl>
             </Grid>
@@ -152,7 +166,7 @@ export const NewPassword = () => {
               </Link>
 
               <Button type="submit" sx={{ ml: 1 }} variant="contained">
-                Buscar
+                Guardar
               </Button>
             </Grid>
           </form>

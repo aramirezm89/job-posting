@@ -1,9 +1,9 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { CreateRecruiter } from '../../admin/pages';
+import { CreateRecruiter,UserList } from '../../admin/pages';
 import { useAuthStore } from '../../hooks';
 import { MyPostulations } from '../../user/pages/MyPostulations';
-import { UserPage } from '../../user/pages/UserPage';
+import { UserPage } from '../../admin/pages/UserPage';
 import { CreateJob, JobAplicant, JobPostingPage, Jobs, LinkedinPage,MyCreatedJobs } from '../pages';
 
 
@@ -35,6 +35,7 @@ export const JobPostingRoutes = () => {
           <Route path="createJob" element={<CreateJob />} />
           {/*  //admin */}
           <Route path="createRecruiter" element={<CreateRecruiter />} />
+          <Route path="userList" element={<UserList />} />
           <Route path="/" element={<Navigate to={"./jobs"} />} />
           <Route path="*" element={<Navigate to="./jobs" />} />
         </>

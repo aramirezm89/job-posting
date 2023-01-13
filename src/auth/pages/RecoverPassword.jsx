@@ -1,9 +1,11 @@
-import { Button, Card, CardContent, Divider, Grid, TextField, Typography } from '@mui/material'
-import {Link} from'react-router-dom'
-import React, { useState } from 'react'
-import { AuthLayout } from '../layout/AuthLayout'
+import { Button, Divider, Grid, TextField, Typography } from '@mui/material'
 import { useFormik } from 'formik'
-import * as yup from "yup";
+import React from 'react'
+import { Link } from 'react-router-dom'
+import * as yup from "yup"
+import { recoverPassword } from '../../api/apiFunctions/auth'
+import { alertError, alertSuccess } from '../../helpers/alertHandler'
+import { AuthLayout } from '../layout/AuthLayout'
 
  const validationSchema = yup.object({
     email: yup
@@ -15,6 +17,16 @@ export const RecoverPassword = () => {
 
     const onSubmit = (values,actions) =>{
         console.log(values)
+        recoverPassword(values).then((response) =>{
+            
+            
+            if(response.status !==200){
+                alertError('Error, el email ingresado no existe en la base de datos')
+            }
+
+            alertSuccess('Por favor revise la bandeja de su correo y haga click en el enlace')
+            actions.resetForm();
+        })
     }
      const formik = useFormik({
        initialValues: {
